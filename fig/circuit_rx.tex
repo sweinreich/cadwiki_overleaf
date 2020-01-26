@@ -90,7 +90,7 @@
     \draw [dashed] (left)++(1,1) -- (boxLL);
     \draw [dashed] (left)++(4.7,1) -- (boxUR |- boxLL);
     \draw ($(boxLL)!0.5!(boxUR)$ |- boxLL)++(0,-3.2) coordinate (za_txt);
-    \node at (za_txt) {\footnotesize (Section \ref{sec_analysis})};
+    \node at (za_txt) {\footnotesize (Section \ref{section_lorem_ipsum})};
     % RLC
     \draw (boxLL)++(0.5,3.0) node[ocirc]{} coordinate(za1) to[/tikz/circuitikz/bipoles/length=0.5cm,R,l=\raisebox{0.2em}{50}] ++(3,0) coordinate(N1) -- ++(0,0.9)
         to[/tikz/circuitikz/bipoles/length=0.6cm,american inductor,l=\raisebox{0.2em}{0.5n}] ++(3,0) -- ++(0,-0.9) coordinate(N2) -- ++(0.6,0) coordinate(za2) node[ocirc]{};
@@ -98,3 +98,4 @@
     % R
     \draw (za1 |- boxLL)++(0,5.9) coordinate(za3) node[ocirc]{}  to[/tikz/circuitikz/bipoles/length=0.5cm,R,l=\raisebox{0.2em}{50}] (za2 |- za3) node[ocirc]{};
 \end{circuitikz}
+\swDecreaseFigSpacing

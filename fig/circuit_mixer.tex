@@ -1,6 +1,6 @@
 \tikzset{C/.append style={/tikz/circuitikz/bipoles/length=0.4cm}}
 \tikzset{R/.append style={/tikz/circuitikz/bipoles/length=0.4cm}}
-\tikzset{rxantenna/.append style={/tikz/circuitikz/bipoles/length=0.7cm}}
+\tikzset{every rxantenna node/.append style={/tikz/circuitikz/bipoles/length=0.7cm}}
 \begin{circuitikz}[
     scale=0.25,
     every node/.style={scale=0.8},
@@ -43,3 +43,4 @@
     \draw (lo)++(0,1.50) ++(0,0.5) node[]{\footnotesize SW2} ++(1.75,-0.5) -- ++(2,0) -- ++(0,1) -- ++(1,0) -- ++(0,-1) -- ++(1,0);
     \draw (lo)++(0,0.00) ++(0,0.5) node[]{\footnotesize SW3} ++(1.75,-0.5) -- ++(3,0) -- ++(0,1) -- ++(1,0) -- ++(0,-1) -- ++(0,0);
 \end{circuitikz}
+\swDecreaseFigSpacing

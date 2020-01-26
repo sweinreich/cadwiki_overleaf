@@ -10,7 +10,6 @@
 \bstctlcite{IEEEexample:BSTcontrol}
 
 
-
 \title{Cadwiki Overleaf Example}
 
 
@@ -25,14 +24,12 @@
 \IEEEauthorblockA{Department of Electrical Engineering, Stanford University, California, USA}
 }
 
-
 \maketitle
 
 
 \begin{abstract}
 \lipsum[1]
 \end{abstract}
-
 
 
 \section{Introduction}
@@ -48,12 +45,39 @@
 \vspace{-0.4em}
 \end{figure}
 
+\begin{figure}[!t]
+\centering
+\input{fig/multi_plot.tex}
+\caption{Multiple plots.}
+\label{fig_multi}
+\vspace{-0.4em}
+\end{figure}
 
 
 \section{Lorem ipsum}
 \label{section_lorem_ipsum}
 
-\lipsum[6-10]
+\lipsum[6-8]
+
+\begin{figure}[!t]
+\centering
+\input{fig/circuit_mixer.tex}
+\caption{A CircuiTikZ example.}
+\label{fig_mixer}
+\vspace{-0.4em}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\input{fig/circuit_rx.tex}
+\caption{Another CircuiTikZ example.}
+\label{fig_rx}
+\vspace{-0.4em}
+\end{figure}
+
+
+\subsection{Lorem ipsum}
+\lipsum[18-20]
 
 \begin{table}[!t]
 \centering
@@ -84,32 +108,17 @@ Fifth method \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
 \end{table}
 
 
-\subsection{Lorem ipsum}
-\lipsum[14-15]
-\lipsum[16][1-8]
-
-\begin{figure}[!t]
-\centering
-\input{fig/multi_plot.tex}
-\caption{Multiple plots.}
-\label{fig_multi}
-\vspace{-0.4em}
-\end{figure}
-
-
 \section{Conclusion}
 \label{section_concl}
-\lipsum[20]
+\lipsum[35]
 
 
 \section*{Acknowledgment}
 \lipsum[50][1-2]
 
 
-
 \IEEEtriggeratref{5}
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,bib/IEEEtransBSTCTL,bib/cadwiki_example}
-
 
 \end{document}

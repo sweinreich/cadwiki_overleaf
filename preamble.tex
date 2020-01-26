@@ -45,7 +45,7 @@
 \pgfplotsset{compat=1.9}
 \usetikzlibrary{pgfplots.groupplots}
 \usepackage{alphalph}
-\usepackage[RPvoltages]{circuitikz}
+\usepackage{circuitikz-0.8.3}
 \tikzstyle{every path}=[line cap=round,line join=round]
 \usetikzlibrary{calc}
 
@@ -54,8 +54,12 @@
 \newcommand{\n}[1][]{\phantom{$^{#1}$}-$^{#1}$}
 \newcommand{\y}[1][]{\phantom{$^{#1}$}\ding{51}$^{#1}$}
 
+% Custom command for figures
+\newcommand{\sub}[2]{#1\textsubscript{#2}}
+
 % Reduce spacing around figures
 \addtolength{\textfloatsep}{-0.3em}
+\newcommand{\swDecreaseFigSpacing}{\vspace{-0.9em}}
 
 % Reduce spacing around equations
 \setlength{\abovedisplayskip}{5pt}

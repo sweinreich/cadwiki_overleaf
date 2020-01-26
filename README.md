@@ -224,14 +224,15 @@ As a basic concept, your diagram is divided into a grid and each 2-terminal elem
 
 To load CircuiTikZ, include the following in the preamble. Note that this also does some global configuration.
 ```latex
-\usepackage[RPvoltages]{circuitikz}
+\usepackage{circuitikz-0.8.3}
 \tikzstyle{every path}=[line cap=round,line join=round]
 \usetikzlibrary{calc}
 ```
+Here I loaded version 0.8.3 for compatibility, since the diagrams I made were before some new styling options were added. You should probably use the latest version.
 
 ### Example
 
-This is best understood by considering an example. This example is available in [fig/circuit_mixer.tex](fig/circuit_mixer.tex)
+This is best understood by considering an example. This example is available in [fig/circuit_mixer.tex](fig/circuit_mixer.tex).
 
 * screenshot of this
 
@@ -239,7 +240,7 @@ CircuitTikZ defines macros for each circuit element, and their sizes are all fix
 ```latex
 \tikzset{C/.append style={/tikz/circuitikz/bipoles/length=0.4cm}}
 \tikzset{R/.append style={/tikz/circuitikz/bipoles/length=0.4cm}}
-\tikzset{rxantenna/.append style={/tikz/circuitikz/bipoles/length=0.7cm}}
+\tikzset{every rxantenna node/.append style={/tikz/circuitikz/bipoles/length=0.7cm}}
 ```
 
 Next, you need to configure the CircuitTikZ environment. The `scale` option determines the distance between grid points, and I found 0.25 to allow for (mostly) integer coordinates. I also set the solderdot scale factor, font size, and line width.
