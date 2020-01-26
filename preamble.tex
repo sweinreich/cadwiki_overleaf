@@ -1,0 +1,58 @@
+% Citations
+\usepackage{cite}
+% Math
+\usepackage{amsmath}
+\interdisplaylinepenalty=2500 % enable line breaks within multiline equations
+% Alignment
+\usepackage{array}
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+% Subfigure
+\ifCLASSOPTIONcompsoc
+ \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\else
+ \usepackage[caption=false,font=footnotesize]{subfig}
+\fi
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+
+% *** MY ADDITIONS ***
+% Improved tables
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage[flushleft]{threeparttable}
+
+% Unicode characters (in citations)
+\DeclareUnicodeCharacter{2052}{\%}
+\DeclareUnicodeCharacter{00B5}{$\mu$}
+
+% 1st, 2nd, ...
+\usepackage[super]{nth}
+
+% Dummy text
+\usepackage{lipsum}
+
+% Figure generation
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+\usetikzlibrary{pgfplots.groupplots}
+\usepackage{alphalph}
+\usepackage{circuitikz}
+\tikzstyle{every path}=[line cap=round,line join=round]
+\usetikzlibrary{calc}
+
+% Custom command for table Y/N
+\usepackage{pifont}
+\newcommand{\n}[1][]{\phantom{$^{#1}$}-$^{#1}$}
+\newcommand{\y}[1][]{\phantom{$^{#1}$}\ding{51}$^{#1}$}
+
+% Reduce spacing around figures
+\addtolength{\textfloatsep}{-0.3em}
+
+% Reduce spacing around equations
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}

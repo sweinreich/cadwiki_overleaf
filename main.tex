@@ -1,0 +1,119 @@
+\documentclass[conference]{IEEEtran}
+\input{preamble.tex}
+
+\begin{document}
+% Set IEEEtran bibliography rules before the first citation
+\bstctlcite{IEEEexample:BSTcontrol}
+
+
+
+\title{Cadwiki Overleaf Example}
+
+
+% Make sure you maintain proper spacing if your initial submission needs a redacted author list.
+% This is set up for one line of authors with three affiliations
+% \author{\IEEEauthorblockN{(redacted author list)}
+% \IEEEauthorblockA{(redacted affiliation list)}
+% \IEEEauthorblockA{}
+% \IEEEauthorblockA{}
+% }
+\author{\IEEEauthorblockN{Stephen Weinreich\IEEEauthorrefmark{1}}
+\IEEEauthorblockA{\IEEEauthorrefmark{1}Department of Electrical Engineering, Stanford University, California, USA}
+}
+
+
+\maketitle
+
+
+\begin{abstract}
+\lipsum[1]
+\end{abstract}
+
+% \begin{IEEEkeywords}
+% Conversion matrix, impedance matching, linear periodically time-varying (LPTV) circuit, mixer-first receiver.
+% \end{IEEEkeywords}
+
+
+
+\section{Introduction}
+\label{section_intro}
+
+\lipsum[2-5]
+
+\begin{figure}[!t]
+\centering
+\input{fig/single_plot.tex}
+\caption{A plot.}
+\label{fig_single}
+\vspace{-0.4em}
+\end{figure}
+
+
+
+\section{Lorem ipsum}
+\label{section_lorem_ipsum}
+
+\lipsum[6-9]
+
+\begin{table}[!t]
+\begin{threeparttable}
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1.25}
+\setlength\tabcolsep{0.24em}
+\caption{Example of a Table With Checkboxes}
+\label{table_example}
+\centering
+\begin{tabular}{l|ccccc}
+\vspace{-0.3em}
+Item & A & B & C & D & E \tabularnewline
+\hline
+Item 1 \cite{Andrews2012} & \y[1] & \y & \y[2] & \n & \n \tabularnewline
+Item 2 \cite{Hameed2018,Hameed2015,Hammler2014} & \n & \y & \y[2] & \y & \n \tabularnewline
+Item 3 \cite{Kwon2018} & \y[3] & \n & \n & \y & \n \tabularnewline
+Item 4 \cite{Muratore2019} & \y[4] & \y & \y[5] & \y & \y \tabularnewline
+Item 5 \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
+\end{tabular}
+\begin{tablenotes}
+\scriptsize
+  \item $^1$A tabular footnote.
+  \item $^2$Another tabular footnote.
+  \item $^3$Another tabular footnote.
+  \item $^4$Another tabular footnote.
+  \item $^5$Another tabular footnote.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+\subsection{Conversion matrices with complex feedback}
+\lipsum[10-12]
+
+\begin{figure}[!t]
+\centering
+\input{fig/multi_plot.tex}
+\caption{Multiple plots.}
+\label{fig_multi}
+\vspace{-0.4em}
+\end{figure}
+
+
+\section{Conclusion}
+\label{section_concl}
+
+\lorem[1]
+
+
+
+
+\section*{Acknowledgment}
+\lorem[13][1]
+
+
+
+
+% \IEEEtriggeratref{13}
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,bib/IEEEtransBSTCTL,bib/cadwiki_example}
+
+
+\end{document}

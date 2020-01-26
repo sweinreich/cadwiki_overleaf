@@ -1,0 +1,69 @@
+\begin{tikzpicture}
+\makeatletter
+\begin{groupplot}[
+	% Plot dimensions.
+    width=3.4in,
+    height=3in,
+    group style={
+		% Name doesn't seem to matter (can probably be referenced somewhere)
+        group name="analysis",
+        group size=2 by 2,
+        % Use shared x and y axes
+        x descriptions at=edge bottom,
+        y descriptions at=edge left,
+		% Set spacing between plots
+        horizontal sep=0.1in,
+        vertical sep=0.1in,
+    },
+	% Adds (a), (b), etc labels to each figure.
+    every axis/.append style={
+        extra description/.code={
+            \node at (0.06,0.06) {\footnotesize{(\alphalph{\pgfplots@group@current@plot})}};
+        }
+    },
+	% Set font sizes to match your figure caption
+    footnotesize,
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    legend style={font=\footnotesize},
+	% Axis labels, limits, tick marks, and grid lines. Limits and ticks will be auto-configurd if commented out.
+	xlabel={Time (s)},
+	ylabel={Amplitude (V)},
+	xmin=0, xmax=2,
+	ymin=-2, ymax=2,
+	% xtick={-8, -4, 0, 4, 8},
+	% ytick={-5, 0, 5},
+	ymajorgrids=true,
+	xmajorgrids=true,
+	grid style=dashed,
+	% Draw markers along with lines, so subsequent lines are on top of previous markers
+    clip mode=individual,
+	% Configure the legend
+	% This sets the legend at the top center, just outside the plot. "Anchor" means that the southern point (i.e. bottom center) of the legend bounding box is set to the given coordinates. In this case we're going to create the legend on the top-left plot, hence the given coordinates.
+    legend style={at={(1.04,1.00)}, anchor=south},
+	% If -1, it will use a single row and as many columns as needed.
+    legend columns=2,
+	% Text alignment
+    legend cell align={left},
+	% Hide the border around the legend
+    legend style={draw=none},
+    legend style={inner sep=0.1em},
+	% Reverse legend order, relative to plotting stack order
+    reverse legend,
+]
+\makeatother
+\nextgroupplot
+\addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/data_prep_example.csv};
+\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/data_prep_example.csv};
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/data_prep_example.csv};
+\addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/data_prep_example.csv};
+\legend{Square wave\phantom{--},Fundamental\phantom{--},Three harmonics\phantom{--},Five harmonics}
+\nextgroupplot
+\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/data_prep_example.csv};
+\nextgroupplot
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/data_prep_example.csv};
+\nextgroupplot
+\addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/data_prep_example.csv};
+\end{groupplot}
+\end{tikzpicture}
+\swDecreaseFigSpacing
