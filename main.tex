@@ -53,9 +53,10 @@
 \section{Lorem ipsum}
 \label{section_lorem_ipsum}
 
-\lipsum[6-9]
+\lipsum[6-10]
 
 \begin{table}[!t]
+\centering
 \begin{threeparttable}
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.25}
@@ -65,28 +66,27 @@
 \centering
 \begin{tabular}{l|ccccc}
 \vspace{-0.3em}
-Item & A & B & C & D & E \tabularnewline
+Method & Item 1 & Item 2 & Item 3 & Item 4 & Item 5 \tabularnewline
 \hline
-Item 1 \cite{Andrews2012} & \y[1] & \y & \y[2] & \n & \n \tabularnewline
-Item 2 \cite{Hameed2018,Hameed2015,Hammler2014} & \n & \y & \y[2] & \y & \n \tabularnewline
-Item 3 \cite{Kwon2018} & \y[3] & \n & \n & \y & \n \tabularnewline
-Item 4 \cite{Muratore2019} & \y[4] & \y & \y[5] & \y & \y \tabularnewline
-Item 5 \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
+First method \cite{Andrews2012,Andrews2010a} & \y[1] & \y & \y[2] & \n & \n \tabularnewline
+Second method \cite{Muratore2019} & \n & \y & \y[2] & \y & \n \tabularnewline
+Third method \cite{Kwon2018,Maas2003} & \y[3] & \n & \n & \y & \n \tabularnewline
+Fourth method \cite{Hameed2018,Hameed2015,Hammler2014} & \y[1] & \y & \y[2] & \y & \y \tabularnewline
+Fifth method \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
 \end{tabular}
 \begin{tablenotes}
 \scriptsize
   \item $^1$A tabular footnote.
   \item $^2$Another tabular footnote.
   \item $^3$Another tabular footnote.
-  \item $^4$Another tabular footnote.
-  \item $^5$Another tabular footnote.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
 
 
-\subsection{Conversion matrices with complex feedback}
-\lipsum[10-12]
+\subsection{Lorem ipsum}
+\lipsum[14-15]
+\lipsum[16][1-8]
 
 \begin{figure}[!t]
 \centering
@@ -99,19 +99,15 @@ Item 5 \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
 
 \section{Conclusion}
 \label{section_concl}
-
-\lorem[1]
-
-
+\lipsum[20]
 
 
 \section*{Acknowledgment}
-\lorem[13][1]
+\lipsum[50][1-2]
 
 
 
-
-% \IEEEtriggeratref{13}
+\IEEEtriggeratref{6}
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,bib/IEEEtransBSTCTL,bib/cadwiki_example}
 

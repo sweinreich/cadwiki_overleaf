@@ -22,6 +22,7 @@ Scripts discussed here and further documentation are available in the [doc/](doc
 
 ### Example project
 * This example follows IEEE conference format (link to it; note this excludes ISSCC), but there are also templates for journals (link to it). Same ideas apply, you mostly just change the preamble.
+https://www.overleaf.com/read/qznyrkjntprq
 
 
 ## General formatting
@@ -83,7 +84,7 @@ data(2:1+length(x),1) = num2cell(x);
 data(2:1+length(sq),2) = num2cell(sq);
 data(2:1+length(sq1),3) = num2cell(sq1);
 data(2:1+length(sq3),3) = num2cell(sq3);
-data(2:1+length(sq3),5) = num2cell(sq5);
+data(2:1+length(sq5),5) = num2cell(sq5);
 % Get rid of extra empty rows (in this case, it reduces to 201 rows)
 data=data(~all(cellfun(@isempty,data),2),:);
 % Save to CSV file
@@ -99,6 +100,7 @@ x,sq,sq1,sq3,sq5
 0.0201005025125628,1,0.160270538786003,,0.239343306293108
 0.0301507537688442,1,0.239409206221979,,0.355553903386545
 ```
+* Fix this data
 
 
 ### Examples
@@ -148,9 +150,9 @@ Then, create the plots. This is configured to read from a table separated by com
 \addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/data_prep_example.csv};
 ```
 
-Lastly, create the legend. I felt that the first legend text was too close to the second, so I used `\phantom` to create some horizontal space. This isn't necessary, but looks nice.
+Lastly, create the legend. I felt that the first legend text was too close to the second, so I used `\phantom` to create some horizontal space. This isn't necessary, but looks nice. In addition, because your figures are created in LaTeX you can easily add citations.
 ```latex
-\legend{Square wave\phantom{--},Fundamental\phantom{--},Three harmonics\phantom{--},Five harmonics}
+\legend{Square wave\cite{Muratore2019}\phantom{--},Fundamental\phantom{--},Three harmonics\phantom{--},Five harmonics}
 \end{axis}
 \end{tikzpicture}
 ```
