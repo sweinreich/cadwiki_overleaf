@@ -41,8 +41,7 @@ When making plots, keep them simple and consistent for readability. Here are a f
 * Thick lines, few colors, and black & white readability (for the colorblind) are helpful. Avoid using both red and green (again, for the colorblind). Ideally, each curve has both a unique color and shape, but this isn't always possible.
 * Red is often associated with negativity, while blue is associated with positivity. So if you are comparing to prior art, don't make theirs blue and yours red.
 * Make sure dashed lines are drawn on top of solid ones, and markers without lines on top of all lines. This way all data is visible.
-* Use consistent line styling when referring to the same configuration (i.e. when the legend entries match). As an example, suppose you are plotting S21 for 4 different transistor gm configurations. If you plot NF for those same 4 gm configurations, the colors should match between the two figures.
-
+* Use consistent line styling when referring to the same configuration (i.e. when the legend entries match). In the plot examples here, I used the same solid black for the square wave, solid blue for the fundamental, solid red for three harmonics, and dashed black for five harmonics.
 
 There are many ways to control white space in LaTeX in order to bring your paper below the page limit. The easiest way is with `\vspace{-1em}` (or whatever height you want to remove). This can also be helpful to add a little bit of extra space before section headers when the page feels too dense.
 
