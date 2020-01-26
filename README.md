@@ -1,41 +1,69 @@
 # Cadwiki Overleaf Tutorial
-* Why to use Overleaf (collab, version control, formatting, separate content vs styles, citations in figures). Problems with it (no grammar check). Alternatives (local install, word).
-* Why exporting from Matlab is tedious. Also why Visio is terrible
+This document describes how to use Overleaf to generate clean vector graphic plots and diagrams, as well as preparing references for IEEE style compliance. This would also be applicable to using a local installation of LaTeX.
 
-This document describes how to use Overleaf to generate clean vector graphic plots and diagrams, as well as preparing references for IEEE style compliance.
+Why should you generate figures in LaTeX rather than in Matlab or Python?
+1. This separates formatting from content. This makes it easy to re-style your figure to fit in your paper without touching the underlying data.
+2. Style automatically matches the rest of your paper, including font and font sizes.
+3. Access to your bibliography, so references can be included within the figure.
+4. Automatic vector graphics. All figures should be vector graphics, with the exception of photos (of your die or measurement setup, for example).
 
+All of the examples shown here are implemented in the following Overleaf document, formatted for a generic IEEE conference (except ISSCC, which has its own format). Other IEEE LaTeX templates can be found [one their website](https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/ieee-article-templates/).
 
+[See the example Overleaf project here](https://www.overleaf.com/read/qznyrkjntprq)
+
+Scripts discussed here are available in the [doc/scripts/](doc/scripts/) folder, and some package documentation is included in the [doc/external/](doc/external/) folder. 
 
 ### Contents
 * [General formatting](#general-formatting)
+ * [White space](#white-space)
 * [Basic setup](#basic-setup)
-* [Preparing figures: plots](#preparing-figures-plots)
-* [Generating clean circuit diagrams](#preparing-figures-circuit-diagrams)
-* [Generating other figures](#other-figure-types)
+* [Generating plots](#generating-plots)
+ * [Data preparation](#data-preparation)
+ * [Examples](#examples)
+  * [Single plot](#single-plot)
+  * [Group plot](#group-plot)
+* [Generating circuit diagrams](#generating-circuit-diagrams)
+ * [Example](#example)
+* [Other figure types](#other-figure-types)
+ * [Timing diagrams](#timing-diagrams)
+ * [Tables](#tables)
 * [Preparing references](#preparing-references)
-* [Other tips](#other-tips)
-* [Helpful links](#other-references)
-
-Scripts discussed here and further documentation are available in the [doc/](doc/) folder.
-
-
-### Example project
-All of the examples shown here are implemented in the following Overleaf document, formatted for a generic IEEE conference (except ISSCC, which has its own format). 
-
-* This example follows IEEE conference format (link to it; note this excludes ISSCC), but there are also templates for journals (link to it). Same ideas apply, you mostly just change the preamble.
-[See the Overleaf document here](https://www.overleaf.com/read/qznyrkjntprq)
+ * [Export from Mendeley](#export-from-mendeley)
 
 
 ## General formatting
-* General concept: separate formatting from content (goes along with plotting approach)
- * examples: font size (https://www.sascha-frank.com/latex-font-size.html) (likely used in figures)
-* Custom commands: Makes it easier to reformat parts of the page
-* Colors: good vs bad, colorblind, dashed on top of solid
+As a general rule, you want to separate formatting from content. As an example, you do not want to set a font size to exactly 10pt. Instead, you should use the [standard LaTeX font size commands](https://www.sascha-frank.com/latex-font-size.html). The document-wide font size is set as an option of `documentclass`, and each of these size commands is defined relative to that global font size.
+
+To this end, custom commands are a valuable tool. For example, I wanted to reduce the space after each figure in my paper in order to reduce the overall length by a few lines (to fit within the page limit). Rather than typing `\vspace{-1em}` once after each figure, I defined a new command in the preamble and called this command after each figure:
+```latex
+\newcommand{\swDecreaseFigSpacing}{\vspace{-0.9em}}
+```
+I then modified the spacing in one place -- the preamble -- while maintaining consistent spacing throughout the paper.
+
+When making plots, keep them simple and consistent for readability. Here are a few tips:
+* Thick lines, few colors, and black & white readability (for the colorblind) are helpful. Avoid using both red and green (again, for the colorblind). Ideally, black/red/blue with dashed/dotted lines when more curves are needed. 
+* Red is often associated with negativity, while blue is associated with positivity. So if you are comparing to prior art, don't make theirs blue and yours red.
+* Make sure dashed lines are drawn on top of solid ones, and markers without lines on top of all lines. This way all data is visible.
+* Use consistent line styling when referring to the same configuration (i.e. when the legend entries match). As an example, suppose you are plotting S21 for 4 different transistor gm configurations. If you plot NF for those same 4 gm configurations, the colors should match between the two figures.
+
+
+### White space
+There are many ways to control white space in LaTeX in order to bring your paper below the page limit. Here are a few tips.
+
+The easiest way is with `\vspace{-1em}` (or whatever height you want to remove). This can also be helpful to add a little bit of extra space before section headers when the page feels too dense.
+
+Figures and tables (and other float objects) by default have a lot of white space surrounding them. You can reduce this space with `\addtolength{\textfloatsep}{-0.3em}`, but I found that using `\vspace` at the end of each figure helped as well. (I made a custom function to reduce this spacing, so I could change one value in the preamble and have it modify spacing around every figure in the paper.)
+
+Equations can also have too much spacing around them by default, especially for denser conference papers. In this case, you can use the following two commands to reduce the spacing before and after the equation:
+```latex
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+```
+
+Don't forget to include the Acknowledgment section and author/affiliation information before final formatting. I forgot the Acknowledgment section and it took at least an hour to reformat so that it would fit.
 
 
 ## Basic setup
-* Basics on the IEEE style (link to original)
-
 In keeping with the separation between style and content, I use the following file structure:
 * `bib/` contains the bibliography (BibTeX) file(s).
 * `data/` contains all data to be plotted, in `.csv` format.
@@ -56,7 +84,7 @@ To include the preamble in your main file, use `\include` (similarly to include 
 ```
 
 
-## Preparing figures: plots
+## Generating plots
 * PGFPlots: overview of what it can do (list some of the plot types, link to documentation)
 
 To use pgfplots, include the following in your preamble. Note that this says you want compatibility with version 1.9 (currently the latest version, I believe).
@@ -104,6 +132,8 @@ x,sq,sq1,sq3,sq5
 
 ### Examples
 To plot this, first copy that CSV file to the `data/` folder. Then, create a new file in the `fig/` folder in order to design the new figure. What follows is one example for making a plot, shown below. There are MANY more style options; see the manual (or StackOverflow) for more.
+
+##### Single plot
 
 ![Single plot](doc/img/single_plot.png)
 
@@ -156,19 +186,28 @@ Lastly, create the legend. I felt that the first legend text was too close to th
 \end{tikzpicture}
 ```
 
-Instead of plotting all of these on a single plot, you could do a group plot with shared axes. The gist is that instead of `begin{axis}` you use `begin{groupplot}` and then include a configuration section to set the subplots:
+Another feature of `\addplot` is the `smooth` option for automatic curve smoothing.
+
+
+##### Group plot
+
+Instead of plotting all of these on a single plot, you could do a group plot with shared axes. This full TeX file for this example is at [fig/multi_plot.tex](fig/multi_plot.tex).
+
+![Multi plot](doc/img/multi_plot.png)
+
+The gist is that instead of `begin{axis}` you use `begin{groupplot}` and then include a configuration section to set the subplots:
 ```latex
-    group style={
+	group style={
 		% Name doesn't seem to matter (can probably be referenced somewhere)
-        group name="analysis",
-        group size=2 by 2,
-        % Use shared x and y axes
-        x descriptions at=edge bottom,
-        y descriptions at=edge left,
+		group name="analysis",
+		group size=2 by 2,
+		% Use shared x and y axes
+		x descriptions at=edge bottom,
+		y descriptions at=edge left,
 		% Set spacing between plots
-        horizontal sep=0.1in,
-        vertical sep=0.1in,
-    },
+		horizontal sep=0.1in,
+		vertical sep=0.1in,
+	},
 ```
 Then, use `\nextgroupplot` to increment which subplot you are adding to:
 ```latex
@@ -186,12 +225,8 @@ Then, use `\nextgroupplot` to increment which subplot you are adding to:
 \addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
 ```
 
-![Multi plot](doc/img/multi_plot.png)
 
-This full TeX file for this example is at [fig/multi_plot.tex](fig/multi_plot.tex).
-
-
-## Preparing figures: Circuit diagrams
+## Generating circuit diagrams
 * circuitikz: overview of some circuit elements it has (link to documentation)
 
 To load circuitikz, include the following in the preamble. Note that this also does some global configuration.
@@ -207,12 +242,59 @@ To load circuitikz, include the following in the preamble. Note that this also d
 
 
 ## Other figure types
+### Timing diagrams
 For timing diagrams, look into tikztiming ([here are some examples](http://www.texample.net/tikz/examples/more-tikz-timing-examples/)).
+
+### Tables
+If you want to create a table with footnotes, I recommend the `threeparttable` package. To use this, include it in `preamble.tex`. I've also included some other useful table packages here.
+```latex
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage[flushleft]{threeparttable}
+```
+
+Here is an example of it in use. This is an example of using custom commands to separate formatting from content: I can easily change the "yes" and "no" icons, and footnote labels, without touching the table environment.
+```latex
+%% Some custom commands I made in preamble.tex, to make the table more readable
+\usepackage{pifont}
+\newcommand{\n}[1][]{\phantom{$^{#1}$}-$^{#1}$}
+\newcommand{\y}[1][]{\phantom{$^{#1}$}\ding{51}$^{#1}$}
+
+%% Here is the table
+\begin{table}[!t]
+\centering
+\begin{threeparttable}
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1.25}
+\setlength\tabcolsep{0.24em}
+\caption{Example of a Table With Checkboxes}
+\label{table_example}
+\centering
+\begin{tabular}{l|ccccc}
+\vspace{-0.3em}
+Method & Item 1 & Item 2 & Item 3 & Item 4 & Item 5 \tabularnewline
+\hline
+First method \cite{Andrews2012,Andrews2010a} & \y[1] & \y & \y[2] & \n & \n \tabularnewline
+Second method \cite{Muratore2019} & \n & \y & \y[2] & \y & \n \tabularnewline
+Third method \cite{Kwon2018,Maas2003} & \y[3] & \n & \n & \y & \n \tabularnewline
+Fourth method \cite{Hameed2018,Hameed2015,Hammler2014} & \y[1] & \y & \y[2] & \y & \y \tabularnewline
+Fifth method \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
+\end{tabular}
+\begin{tablenotes}
+\scriptsize
+  \item $^1$A tabular footnote.
+  \item $^2$Another tabular footnote.
+  \item $^3$Yet another tabular footnote.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+```
+
+![Table](doc/img/table.png)
 
 
 ## Preparing references
-References are all stored in a BibTeX file (`.bib`) and automatically ordered and formatted at compile time.
-* TO DO: Brief overview of IEEE standards on this
+References are all stored in a BibTeX file (`.bib`) and automatically ordered and formatted at compile time, following the IEEE style. The IEEE reference guide is [available on the IEEE website](https://ieeeauthorcenter.ieee.org/wp-content/uploads/IEEE-Reference-Guide.pdf), though you shouldn't have have to look at it (much).
 
 For some reason the default IEEE style includes URLs in all references, which is usually not desired. To fix this, create `/bib/IEEEtransBSTCTL.bib` with the following text to disable URL use:
 ```bibtex
@@ -228,7 +310,7 @@ This file can have many options to configure your references section; see the [d
 
 As far as I can tell, there is no automatic way to split references easily between two columns (this is useful for ISCAS, for example, where the final page is exclusively references and they should be roughly evenly spread across the two columns). To split references, use the `\IEEEtriggeratref{x}` command, which will put reference `x` as the first reference on the new column.
 ```latex
-\IEEEtriggeratref{13}
+\IEEEtriggeratref{5}
 ```
 Then, create the bibliography using the IEEE abbreviated style, and including both your configuration and references files. File extensions are not needed.
 ```latex
@@ -236,7 +318,7 @@ Then, create the bibliography using the IEEE abbreviated style, and including bo
 \bibliography{IEEEabrv,bib/IEEEtransBSTCTL,bib/cadwiki_example}
 ```
 
-If your citations have any special characters, you may need to fix them. This should probably have been fixed in the BibTeX file, but this works too. (This replaces the given unicode characters with LaTeX-compatible code.)
+If your citations have any special characters, you may get compile errors. This should probably have been fixed in the BibTeX file, but this code works too. (This replaces the given unicode characters with LaTeX-compatible code.)
 ```latex
 \DeclareUnicodeCharacter{2052}{\%}
 \DeclareUnicodeCharacter{00B5}{$\mu$}
@@ -268,6 +350,7 @@ There are a few issues with this entry:
 3. The month has brackets, meaning that it will incorrectly be all-lowercase.
 
 These can all be fixed easily and quickly with a Python script (it's written for Python 2.7; you may need to update for Python 3). This is a fairly dumb script which iterates over each line and fixes the errors, as described below. There is room for improvement. This script file is at [doc/scripts/fix_bib.py](doc/scripts/fix_bib.py).
+
 ```python
 import fileinput
 import re
@@ -350,64 +433,3 @@ year = {2019}
 ```
 (The curly brackets around "A" in the title aren't necessary, but are a result of my simple method of fixing capitalization.)
 
-
-## Other tips
-
-### Tables
-If you want to create a table with footnotes, I recommend the `threeparttable` package. To use this, include it in `preamble.tex`. I've also included some other useful table packages here.
-```latex
-\usepackage{tabularx}
-\usepackage{multirow}
-\usepackage[flushleft]{threeparttable}
-```
-
-Here is an example of it in use. This is an example of using custom commands to separate formatting from content: I can easily change the "yes" and "no" icons, and footnote labels, without touching the table environment.
-```latex
-%% Some custom commands I made in preamble.tex, to make the table more readable
-\usepackage{pifont}
-\newcommand{\n}[1][]{\phantom{$^{#1}$}-$^{#1}$}
-\newcommand{\y}[1][]{\phantom{$^{#1}$}\ding{51}$^{#1}$}
-
-%% Here is the table
-\begin{table}[!t]
-\centering
-\begin{threeparttable}
-% increase table row spacing, adjust to taste
-\renewcommand{\arraystretch}{1.25}
-\setlength\tabcolsep{0.24em}
-\caption{Example of a Table With Checkboxes}
-\label{table_example}
-\centering
-\begin{tabular}{l|ccccc}
-\vspace{-0.3em}
-Method & Item 1 & Item 2 & Item 3 & Item 4 & Item 5 \tabularnewline
-\hline
-First method \cite{Andrews2012,Andrews2010a} & \y[1] & \y & \y[2] & \n & \n \tabularnewline
-Second method \cite{Muratore2019} & \n & \y & \y[2] & \y & \n \tabularnewline
-Third method \cite{Kwon2018,Maas2003} & \y[3] & \n & \n & \y & \n \tabularnewline
-Fourth method \cite{Hameed2018,Hameed2015,Hammler2014} & \y[1] & \y & \y[2] & \y & \y \tabularnewline
-Fifth method \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
-\end{tabular}
-\begin{tablenotes}
-\scriptsize
-  \item $^1$A tabular footnote.
-  \item $^2$Another tabular footnote.
-  \item $^3$Yet another tabular footnote.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-```
-
-![Table](doc/img/table.png)
-
-
-### White space
-
-* include ack, include white space for authors/affiliations (if redacted for first submission). Can set spacing around various things: figures, equations, before each section/subsection
-
-
-## Other references
-* useful links. including all manuals (ieee style guides, pgfplots, circuitikz, etc) and latex help pages
-* refer to doc/external/ folder which contains a bunch of these
-https://www.ieee.org/conferences/publishing/templates.html
-https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/ieee-article-templates/
