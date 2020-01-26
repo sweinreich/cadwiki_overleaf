@@ -31,8 +31,8 @@
 	ylabel={Amplitude (V)},
 	xmin=0, xmax=2,
 	ymin=-2, ymax=2,
-	% xtick={-8, -4, 0, 4, 8},
-	% ytick={-5, 0, 5},
+	xtick={0, 0.5, 1, 1.5, 2},
+	%ytick={-1, 0, 1},
 	ymajorgrids=true,
 	xmajorgrids=true,
 	grid style=dashed,
@@ -48,8 +48,8 @@
 	% Hide the border around the legend
     legend style={draw=none},
     legend style={inner sep=0.1em},
-	% Reverse legend order, relative to plotting stack order
-    reverse legend,
+	% Reverse legend order, relative to plotting stack order (useful to have simulation dots appear on top, but legend entry listed last)
+    % reverse legend,
 ]
 \makeatother
 \nextgroupplot

@@ -392,7 +392,7 @@ Fifth method \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
 \scriptsize
   \item $^1$A tabular footnote.
   \item $^2$Another tabular footnote.
-  \item $^3$Another tabular footnote.
+  \item $^3$Yet another tabular footnote.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
