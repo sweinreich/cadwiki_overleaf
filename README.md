@@ -1,7 +1,7 @@
 # Cadwiki Overleaf Tutorial
 This document describes how to use Overleaf to generate clean vector graphic plots and diagrams, as well as preparing references for IEEE style compliance. This is also applicable to using a local installation of LaTeX.
 
-Why should you generate figures in LaTeX rather than in Matlab or Python?
+Why should you generate figures in LaTeX rather than in Matlab, Python, Visio, etc?
 1. It separates formatting from content. This makes it easy to re-style your figure to fit in your paper without touching the underlying data, or re-running scripts.
 2. Style automatically matches the rest of your paper, including font and font sizes.
 3. Access to your bibliography, so references can be included within the figure.
