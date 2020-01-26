@@ -234,7 +234,7 @@ Here I loaded version 0.8.3 for compatibility, since the diagrams I made were be
 
 This is best understood by considering an example. This example is available in [fig/circuit_mixer.tex](fig/circuit_mixer.tex).
 
-* screenshot of this
+![Mixer circuit](doc/img/circuit_mixer.png)
 
 CircuitTikZ defines macros for each circuit element, and their sizes are all fixed. I think that some elements are by default too large, so I used global commands to change their dimensions.
 ```latex
@@ -305,6 +305,9 @@ CircuitTikZ also supports general TikZ commands. Here, I create some connected l
     \draw (lo)++(0,0.00) ++(0,0.5) node[]{\footnotesize SW3} ++(1.75,-0.5) -- ++(3,0) -- ++(0,1) -- ++(1,0) -- ++(0,-1) -- ++(0,0);
 \end{circuitikz}
 ```
+
+
+![RX circuit](doc/img/circuit_rx.png)
 
 A more complex example is in [fig/circuit_rx.tex](fig/circuit_rx.tex). Here are a few key lines from that code.
 
