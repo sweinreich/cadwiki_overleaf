@@ -20,8 +20,8 @@ data(1,:) = {'x', 'sq', 'sq1', 'sq3', 'sq5'};
 data(2:1+length(x),1) = num2cell(x);
 data(2:1+length(sq),2) = num2cell(sq);
 data(2:1+length(sq1),3) = num2cell(sq1);
-data(2:1+length(sq3),3) = num2cell(sq3);
-data(2:1+length(sq3),5) = num2cell(sq5);
+data(2:1+length(sq3),4) = num2cell(sq3);
+data(2:1+length(sq5),5) = num2cell(sq5);
 % Get rid of extra empty rows (in this case, it reduces to 201 rows)
 data=data(~all(cellfun(@isempty,data),2),:);
 % Save to CSV file

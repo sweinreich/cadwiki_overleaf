@@ -1,28 +1,29 @@
 # Cadwiki Overleaf Tutorial
-* Why to use Overleaf (collab, version control, formatting, separate content vs styles). Problems with it (no grammar check). Alternatives (local install, word).
+* Why to use Overleaf (collab, version control, formatting, separate content vs styles, citations in figures). Problems with it (no grammar check). Alternatives (local install, word).
 * Why exporting from Matlab is tedious. Also why Visio is terrible
 
 This document describes how to use Overleaf to generate clean vector graphic plots and diagrams, as well as preparing references for IEEE style compliance.
 
-* TO DO: figure out file organization. Maybe a scripts/ folder for .py and .m, and then just put all of the outputs in an overleaf/ folder? And then sync this all to overleaf?
 
 
 ### Contents
-* General formatting and custom commands
-* Basic setup and file structure
-* Generating clean plots
-* Generating clean circuit diagrams
-* Generating other figures
-* Preparing references
-* Other tips
-* Helpful links and references
+* [General formatting](#general-formatting)
+* [Basic setup](#basic-setup)
+* [Preparing figures: plots](#preparing-figures-plots)
+* [Generating clean circuit diagrams](#preparing-figures-circuit-diagrams)
+* [Generating other figures](#other-figure-types)
+* [Preparing references](#preparing-references)
+* [Other tips](#other-tips)
+* [Helpful links](#other-references)
 
 Scripts discussed here and further documentation are available in the [doc/](doc/) folder.
 
 
 ### Example project
+All of the examples shown here are implemented in the following Overleaf document, formatted for a generic IEEE conference (except ISSCC, which has its own format). 
+
 * This example follows IEEE conference format (link to it; note this excludes ISSCC), but there are also templates for journals (link to it). Same ideas apply, you mostly just change the preamble.
-https://www.overleaf.com/read/qznyrkjntprq
+[See the Overleaf document here](https://www.overleaf.com/read/qznyrkjntprq)
 
 
 ## General formatting
@@ -34,7 +35,6 @@ https://www.overleaf.com/read/qznyrkjntprq
 
 ## Basic setup
 * Basics on the IEEE style (link to original)
-* TO DO: figure out what IEEE files need to be included
 
 In keeping with the separation between style and content, I use the following file structure:
 * `bib/` contains the bibliography (BibTeX) file(s).
@@ -70,7 +70,7 @@ To use pgfplots, include the following in your preamble. Note that this says you
 ### Data preparation
 Before plotting, you need to save your data to file. In this example I will show how to export to CSV from Matlab, but PGFPlots can also import other file types (see the documentation if you're interested). 
 
-By using a cell array to save the data, it is easy to have columns of different lengths (not taken advantage of in this example). This full script is at [doc/scripts/data_prep_example.m](doc/scripts/data_prep_example.m).
+By using a cell array to save the data, it is easy to have columns of different lengths (not taken advantage of in this example). This full script is at [doc/scripts/cadwiki_example.m](doc/scripts/cadwiki_example.m).
 ```matlab
 %% Save to CSV file
 % Create cell array to hold our data. Set it to the maximum size you might
@@ -83,7 +83,7 @@ data(1,:) = {'x', 'sq', 'sq1', 'sq3', 'sq5'};
 data(2:1+length(x),1) = num2cell(x);
 data(2:1+length(sq),2) = num2cell(sq);
 data(2:1+length(sq1),3) = num2cell(sq1);
-data(2:1+length(sq3),3) = num2cell(sq3);
+data(2:1+length(sq3),4) = num2cell(sq3);
 data(2:1+length(sq5),5) = num2cell(sq5);
 % Get rid of extra empty rows (in this case, it reduces to 201 rows)
 data=data(~all(cellfun(@isempty,data),2),:);
@@ -92,15 +92,14 @@ T = cell2table(data(2:end,:),'VariableNames',data(1,:));
 writetable(T,'cadwiki_example.csv')
 ```
 
-The CSV file will look something like the following (only the first few lines are shown). The first line contains text that identifies the contents of each column in order to be referenced in the LaTeX code. The data should all be numbers formatted as a general number. That is, `123456.789` instead of `1.23456789e5`. Also, when preparing your data, consider how many data points are actually required: typically a few hundred should be sufficient and exceeding this (>1000) can increase LaTeX compile time. The full CSV file is at [data/data_prep_example.csv](data/data_prep_example.csv).
+The CSV file will look something like the following (only the first few lines are shown). The first line contains text that identifies the contents of each column in order to be referenced in the LaTeX code. The data should all be numbers formatted as a general number. That is, `123456.789` instead of `1.23456789e5`. Also, when preparing your data, consider how many data points are actually required: typically a few hundred should be sufficient and exceeding this (>1000) can increase LaTeX compile time. The full CSV file is at [data/cadwiki_example.csv](data/cadwiki_example.csv).
 ```
 x,sq,sq1,sq3,sq5
-0,1,0,,0
-0.0100502512562814,1,0.0803352430697792,,0.120369470368499
-0.0201005025125628,1,0.160270538786003,,0.239343306293108
-0.0301507537688442,1,0.239409206221979,,0.355553903386545
+0,1,0,0,0
+0.0100502512562814,1,0.0401943259304967,0.0803352430697792,0.120369470368499
+0.0201005025125628,1,0.0803485852827736,0.160270538786003,0.239343306293108
+0.0301507537688442,1,0.120422751417848,0.239409206221979,0.355553903386545
 ```
-* Fix this data
 
 
 ### Examples
@@ -142,13 +141,13 @@ First, create an axis which we will then configure. This is equivalent to config
 ```
 
 Then, create the plots. This is configured to read from a table separated by commas (i.e. CSV file), with a header row, and x-data found in column "x" and y-data found in column "sq".
-* TO DO: Set plot colors and describe them
 ```latex
-\addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/data_prep_example.csv};
-\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/data_prep_example.csv};
-\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/data_prep_example.csv};
-\addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/data_prep_example.csv};
+\addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/cadwiki_example.csv};
+\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
+\addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
 ```
+Common plot style options are `color`, `mark` (`none`, `circle`, `square`, etc), and `style` (`very thick`, `solid`, `densely dashed`, etc). Other options are available in the [PGFPlots documentation](doc/external/pgfplots.pdf).
 
 Lastly, create the legend. I felt that the first legend text was too close to the second, so I used `\phantom` to create some horizontal space. This isn't necessary, but looks nice. In addition, because your figures are created in LaTeX you can easily add citations.
 ```latex
@@ -174,17 +173,17 @@ Instead of plotting all of these on a single plot, you could do a group plot wit
 Then, use `\nextgroupplot` to increment which subplot you are adding to:
 ```latex
 \nextgroupplot
-\addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/data_prep_example.csv};
-\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/data_prep_example.csv};
-\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/data_prep_example.csv};
-\addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/data_prep_example.csv};
+\addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/cadwiki_example.csv};
+\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
+\addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
 \legend{Square wave\phantom{--},Fundamental\phantom{--},Three harmonics\phantom{--},Five harmonics}
 \nextgroupplot
-\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/data_prep_example.csv};
+\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
 \nextgroupplot
-\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/data_prep_example.csv};
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
 \nextgroupplot
-\addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/data_prep_example.csv};
+\addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
 ```
 
 * TO DO: show image of 2x2 array
@@ -371,6 +370,7 @@ Here is an example of it in use. This is an example of using custom commands to 
 
 %% Here is the table
 \begin{table}[!t]
+\centering
 \begin{threeparttable}
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.25}
@@ -380,29 +380,31 @@ Here is an example of it in use. This is an example of using custom commands to 
 \centering
 \begin{tabular}{l|ccccc}
 \vspace{-0.3em}
-Item & A & B & C & D & E \tabularnewline
+Method & Item 1 & Item 2 & Item 3 & Item 4 & Item 5 \tabularnewline
 \hline
-Item 1 \cite{Andrews2012} & \y[1] & \y & \y[2] & \n & \n \tabularnewline
-Item 2 \cite{Hameed2018,Hameed2015,Hammler2014} & \n & \y & \y[2] & \y & \n \tabularnewline
-Item 3 \cite{Kwon2018} & \y[3] & \n & \n & \y & \n \tabularnewline
-Item 4 \cite{Muratore2019} & \y[4] & \y & \y[5] & \y & \y \tabularnewline
-Item 5 \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
+First method \cite{Andrews2012,Andrews2010a} & \y[1] & \y & \y[2] & \n & \n \tabularnewline
+Second method \cite{Muratore2019} & \n & \y & \y[2] & \y & \n \tabularnewline
+Third method \cite{Kwon2018,Maas2003} & \y[3] & \n & \n & \y & \n \tabularnewline
+Fourth method \cite{Hameed2018,Hameed2015,Hammler2014} & \y[1] & \y & \y[2] & \y & \y \tabularnewline
+Fifth method \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
 \end{tabular}
 \begin{tablenotes}
 \scriptsize
   \item $^1$A tabular footnote.
   \item $^2$Another tabular footnote.
   \item $^3$Another tabular footnote.
-  \item $^4$Another tabular footnote.
-  \item $^5$Another tabular footnote.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
 ```
 
+### White space
+
+* include ack, include white space for authors/affiliations (if redacted for first submission). Can set spacing around various things: figures, equations, before each section/subsection
+
 
 ## Other references
 * useful links. including all manuals (ieee style guides, pgfplots, circuitikz, etc) and latex help pages
-* refer to /doc/ folder which contains a bunch of these
+* refer to doc/external/ folder which contains a bunch of these
 https://www.ieee.org/conferences/publishing/templates.html
 https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/ieee-article-templates/

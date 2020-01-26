@@ -1,7 +1,7 @@
 \begin{tikzpicture}
 \begin{axis}[
 	% Plot dimensions
-	width=3.4in,
+	width=3in,
 	height=2in,
 	% Set font sizes to match your figure caption
 	tick label style={font=\footnotesize},
@@ -27,10 +27,10 @@
 	% Hide the border around the legend
 	legend style={draw=none},
 ]
-\addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/data_prep_example.csv};
-\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/data_prep_example.csv};
-\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/data_prep_example.csv};
-\addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/data_prep_example.csv};
-\legend{Square wave\cite{Muratore2019}\phantom{--},Fundamental\phantom{--},Three harmonics\phantom{--},Five harmonics}
+\addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/cadwiki_example.csv};
+\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
+\addplot[color=black,mark=none,style=very thick,densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
+\legend{Square wave\cite{Muratore2019}\phantom{--},Fundamental,Three harmonics\phantom{--},Five harmonics}
 \end{axis}
 \end{tikzpicture}
