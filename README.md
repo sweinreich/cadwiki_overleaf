@@ -7,7 +7,8 @@ Why should you generate figures in LaTeX rather than in Matlab or Python?
 3. Access to your bibliography, so references can be included within the figure.
 4. Automatic vector graphics. All figures should be vector graphics, with the exception of photos (of your die or measurement setup, for example).
 
-[**All of the examples shown here are implemented in this Overleaf project**](https://www.overleaf.com/read/qznyrkjntprq), formatted for a generic IEEE conference. Other LaTeX templates can be found [on the IEEE website](https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/ieee-article-templates/). Scripts discussed here are available in the [doc/scripts/](doc/scripts/) folder.
+### [All of the examples shown here are implemented in this Overleaf project](https://www.overleaf.com/read/qznyrkjntprq)
+This is formatted for a generic IEEE conference; other LaTeX templates can be found [on the IEEE website](https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/ieee-article-templates/). Scripts discussed here are available in the [doc/scripts/](doc/scripts/) folder.
 
 ## Contents
 * [General formatting](#general-formatting)
