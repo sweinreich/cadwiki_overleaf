@@ -7,7 +7,7 @@ Why should you generate figures in LaTeX rather than in Matlab or Python?
 3. Access to your bibliography, so references can be included within the figure.
 4. Automatic vector graphics. All figures should be vector graphics, with the exception of photos (of your die or measurement setup, for example).
 
-[**All of the examples shown here are implemented in this Overleaf project**](https://www.overleaf.com/read/qznyrkjntprq), formatted for a generic IEEE conference. Other LaTeX templates can be found [on the IEEE website](https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/ieee-article-templates/). Scripts discussed here are available in the [doc/scripts/](doc/scripts/) folder, and some package documentation is included in the [doc/external/](doc/external/) folder. 
+[**All of the examples shown here are implemented in this Overleaf project**](https://www.overleaf.com/read/qznyrkjntprq), formatted for a generic IEEE conference. Other LaTeX templates can be found [on the IEEE website](https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/ieee-article-templates/). Scripts discussed here are available in the [doc/scripts/](doc/scripts/) folder.
 
 ## Contents
 * [General formatting](#general-formatting)
@@ -27,6 +27,8 @@ Why should you generate figures in LaTeX rather than in Matlab or Python?
 
 
 ## General formatting
+[See the IEEE Style Manual](http://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE-Editorial-Style-Manual.pdf) for IEEE-specific policies. Technically it is for IEEE transactions, journals, and letters, but much of it should be applied to conferences as well.
+
 As a general rule, you want to separate formatting from content. As an example, you do not want to set a font size to exactly 10pt. Instead, you should use the [standard LaTeX font size commands](https://www.sascha-frank.com/latex-font-size.html). The document-wide font size is set as an option of `documentclass`, and each of these size commands is defined relative to that global font size.
 
 To this end, custom commands are a valuable tool. For example, I wanted to reduce the space after each figure in my paper in order to reduce the overall length by a few lines (to fit within the page limit). Rather than typing `\vspace{-1em}` once after each figure, I defined a new command in the preamble and called this command after each figure:
@@ -64,7 +66,7 @@ In keeping with the separation between style and content, I use the following fi
 * `main.tex` contains the actual text of the paper, and imports the figure TeX files from `fig/`.
 * `preamble.tex` is where I import and configure packages, define custom commands, and other preamble.
 
-Note that this project has an extra folder `doc/` and this file `README.md` which are only for documentation and providing helpful scripts. No image files (PNG, BMP, etc) should be in the project, unless a JPG is needed to show the die photo or measurement setup.
+Note that this project has an extra folder `doc/` and this file `README.md` which are only for documentation and providing helpful scripts. No image files (PNG, BMP, etc) should be in the project unless a JPG is needed to show the die photo or measurement setup, in which case it should go in `fig/`.
 
 To include the preamble in your main file, use `\include` (similarly to include figures). `main.tex` looks like this:
 ```latex
@@ -77,9 +79,9 @@ To include the preamble in your main file, use `\include` (similarly to include 
 
 
 ## Generating plots
-Plots can be created directly by LaTeX using the PGFPlots package. This package can plot imported matrices or mathematical expressions, on a variety of 2D and 3D plot types. The [PGFPlots documentation](doc/external/pgfplots.pdf) is a valuable resource.
+Plots can be created directly by LaTeX using the PGFPlots package. This package can plot imported matrices or mathematical expressions, on a variety of 2D and 3D plot types. The documentation ([available here](https://ctan.org/pkg/pgfplots)) is a valuable resource.
 
-To use pgfplots, include the following in your preamble.
+To use PGFPlots, include the following in your preamble.
 ```latex
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.9}
@@ -90,7 +92,7 @@ To use pgfplots, include the following in your preamble.
 ### Data preparation
 Before plotting, you need to save your data to file. In this example I will show how I export from Matlab to CSV, but other file formats are also accepted.
 
-By using a cell array to save the data, it is easy to have columns of different lengths (not taken advantage of in this example). This full script is at [doc/scripts/cadwiki_example.m](doc/scripts/cadwiki_example.m).
+By using a cell array to save the data, it is easy to have columns of different lengths (not taken advantage of in this example). This full script with sample data is at [doc/scripts/cadwiki_example.m](doc/scripts/cadwiki_example.m).
 ```matlab
 % Create cell array to hold our data. Set it to the maximum size you might
 % want: in this case, I need 5 columns (x, sq, sq1, sq3, sq5) and am 
@@ -124,11 +126,15 @@ x,sq,sq1,sq3,sq5
 ### Examples
 To make a plot, first copy that CSV file to the `data/` folder. Then, create a new TeX file in the `fig/` folder in which to define the plot. What follows are examples for making line plots. Other 2D and 3D plots are described in the PGFPlots documentation.
 
+Note that the styling on these plots is poor: in black and white, the lines cannot be distinguished.
+
 #### Single plot
 
 ![Single plot](doc/img/single_plot.png)
 
-First, create an axis which we will then configure. This is equivalent to configuring both the "figure" and "axis" in Matlab, as well as a few other things (ex: legend). (This full TeX file is at [fig/single_plot.tex](fig/single_plot.tex).)
+The full TeX file to generate this figure is at [fig/single_plot.tex](fig/single_plot.tex).
+
+First, create an axis which we will then configure. This is roughly equivalent to configuring both the "figure" and "axis" in Matlab.
 ```latex
 \begin{tikzpicture}
 \begin{axis}[
@@ -168,11 +174,11 @@ Then, create the plots. This is configured to read from a table separated by com
 \addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
 \addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
 ```
-Common plot style options are `color`, `mark` (`none`, `circle`, `square`, etc), and `style` (`very thick`, `solid`, `densely dashed`, etc). Other options are available in the [PGFPlots documentation](doc/external/pgfplots.pdf).
+Common plot style options are `color`, `mark` (`none`, `circle`, `square`, `x`, etc), and `style` (`very thick`, `solid`, `densely dashed`, etc). Use `only marks` to get rid of the line, for example to show measurement data. Other options are available in the documentation ([available here](https://ctan.org/pkg/pgfplots)).
 
-Lastly, create the legend. I felt that the first legend text was too close to the second, so I used `\phantom` to create some horizontal space. This isn't necessary, but looks nice. In addition, you could easily include citations (unlike figures exported directly from Matlab).
+Lastly, create the legend. I felt that the first legend text was too close to the second, so I used `\phantom` to create some horizontal space. This isn't necessary, but looks nice. In addition, you could easily include citations or references to sections of the text (unlike figures exported directly from Matlab).
 ```latex
-\legend{Square wave\cite{Muratore2019}\phantom{--},Fundamental\phantom{--},Three harmonics\phantom{--},Five harmonics}
+\legend{Square wave\cite{Muratore2019}\phantom{--},Fundamental,Three harmonics\phantom{--},Five harmonics}
 \end{axis}
 \end{tikzpicture}
 ```
@@ -218,7 +224,7 @@ Then, use `\nextgroupplot` to switch between subplots:
 
 
 ## Generating circuit diagrams
-CircuiTikZ is essentially a library of circuit elements and enables LaTeX-compiled circuit diagrams, building on the general TikZ plotting package. The [documentation](doc/external/circuitikzmanual.pdf) lists all available circuit elements, though I found Stackoverflow to be more helpful in most cases. The package is frequently updated, so you may want to get the latest documentation from the [CircuiTikZ homepage](https://ctan.org/pkg/circuitikz).
+CircuiTikZ is essentially a library of circuit elements and enables LaTeX-compiled circuit diagrams, building on the general TikZ plotting package. The documentation ([available here](https://ctan.org/pkg/circuitikz)) lists all available circuit elements, though I found Stackoverflow to be more helpful in most cases. 
 
 As a basic concept, your diagram is divided into a grid and each 2-terminal element is defined as between two grid coordinates. Larger elements are defined by a single coordinate and orientation, and pin coordinates can be extracted from the element. CircuiTikZ supports variables, making it easy to modify diagrams.
 
@@ -395,7 +401,7 @@ Default behavior is to include URLs in some references, which is not desired. Yo
 	CTLuse_url = "no",
 }
 ```
-See the [documentation](./doc/external/IEEEtran_bst_HOWTO.pdf) for additional configuration that is possible through this file. In addition, the following line must appear before the first citation but after `\begin{document}` in order for that configuration to take effect.
+See the [documentation](ftp://tug.ctan.org/pub/tex-archive/macros/latex/contrib/IEEEtran/bibtex/IEEEtran_bst_HOWTO.pdf) for additional configuration that is possible through this file. In addition, the following line must appear before the first citation but after `\begin{document}` in order for that configuration to take effect.
 ```latex
 \bstctlcite{IEEEexample:BSTcontrol}
 ```
