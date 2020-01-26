@@ -2,14 +2,14 @@
 This document describes how to use Overleaf to generate clean vector graphic plots and diagrams, as well as preparing references for IEEE style compliance. This is also applicable to using a local installation of LaTeX.
 
 Why should you generate figures in LaTeX rather than in Matlab or Python?
-1. This separates formatting from content. This makes it easy to re-style your figure to fit in your paper without touching the underlying data, or re-running scripts.
+1. It separates formatting from content. This makes it easy to re-style your figure to fit in your paper without touching the underlying data, or re-running scripts.
 2. Style automatically matches the rest of your paper, including font and font sizes.
 3. Access to your bibliography, so references can be included within the figure.
 4. Automatic vector graphics. All figures should be vector graphics, with the exception of photos (of your die or measurement setup, for example).
 
-[**All of the examples shown here are implemented in this Overleaf project**](https://www.overleaf.com/read/qznyrkjntprq), formatted for a generic IEEE conference (except ISSCC, which has its own format). Other IEEE LaTeX templates can be found [on their website](https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/ieee-article-templates/). Scripts discussed here are available in the [doc/scripts/](doc/scripts/) folder, and some package documentation is included in the [doc/external/](doc/external/) folder. 
+[**All of the examples shown here are implemented in this Overleaf project**](https://www.overleaf.com/read/qznyrkjntprq), formatted for a generic IEEE conference. Other LaTeX templates can be found [on the IEEE website](https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/ieee-article-templates/). Scripts discussed here are available in the [doc/scripts/](doc/scripts/) folder, and some package documentation is included in the [doc/external/](doc/external/) folder. 
 
-### Contents
+## Contents
 * [General formatting](#general-formatting)
 * [Initial setup](#initial-setup)
 * [Generating plots](#generating-plots)
@@ -36,7 +36,7 @@ To this end, custom commands are a valuable tool. For example, I wanted to reduc
 I then modified the spacing in one place -- the preamble -- while maintaining consistent spacing throughout the paper.
 
 When making plots, keep them simple and consistent for readability. Here are a few tips:
-* Thick lines, few colors, and black & white readability (for the colorblind) are helpful. Avoid using both red and green (again, for the colorblind). Ideally, black/red/blue with dashed/dotted lines when more curves are needed. 
+* Thick lines, few colors, and black & white readability (for the colorblind) are helpful. Avoid using both red and green (again, for the colorblind). Ideally, each curve has both a unique color and shape, but this isn't always possible.
 * Red is often associated with negativity, while blue is associated with positivity. So if you are comparing to prior art, don't make theirs blue and yours red.
 * Make sure dashed lines are drawn on top of solid ones, and markers without lines on top of all lines. This way all data is visible.
 * Use consistent line styling when referring to the same configuration (i.e. when the legend entries match). As an example, suppose you are plotting S21 for 4 different transistor gm configurations. If you plot NF for those same 4 gm configurations, the colors should match between the two figures.
@@ -60,11 +60,11 @@ In keeping with the separation between style and content, I use the following fi
 * `bib/` contains the bibliography (BibTeX) file(s).
 * `data/` contains all data to be plotted, in CSV format.
 * `fig/` contains TeX files which generate the figures.
-* `ieee/` contains IEEE-provided styles. (It is possible on Overleaf to create a workspace which automatically references these IEEE styles, but I found when copying a project it lost some references. I recommend manually providing these files, which will also allow you to compile locally if desired.)
+* `ieee/` contains IEEE-provided styles. (It is possible on Overleaf to create a workspace which automatically references these IEEE styles, but I found when copying a project it lost some references. I recommend manually including these files, as I have here, which will also allow you to compile locally if desired.)
 * `main.tex` contains the actual text of the paper, and imports the figure TeX files from `fig/`.
 * `preamble.tex` is where I import and configure packages, define custom commands, and other preamble.
 
-Note that this project has an extra folder `doc/` and this file `README.md` which are only for documentation and providing helpful scripts. No image files (EPS, PNG, BMP, etc) should be in the project, unless a JPG is needed to show the die photo or measurement setup.
+Note that this project has an extra folder `doc/` and this file `README.md` which are only for documentation and providing helpful scripts. No image files (PNG, BMP, etc) should be in the project, unless a JPG is needed to show the die photo or measurement setup.
 
 To include the preamble in your main file, use `\include` (similarly to include figures). `main.tex` looks like this:
 ```latex
@@ -79,7 +79,7 @@ To include the preamble in your main file, use `\include` (similarly to include 
 ## Generating plots
 Plots can be created directly by LaTeX using the PGFPlots package. This package can plot imported matrices or mathematical expressions, on a variety of 2D and 3D plot types. The [PGFPlots documentation](doc/external/pgfplots.pdf) is a valuable resource.
 
-To use pgfplots, include the following in your preamble. Note that this says you want compatibility with version 1.9 (currently the latest version, I believe).
+To use pgfplots, include the following in your preamble.
 ```latex
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.9}
@@ -88,11 +88,10 @@ To use pgfplots, include the following in your preamble. Note that this says you
 
 
 ### Data preparation
-Before plotting, you need to save your data to file. In this example I will show how to export to CSV from Matlab, but PGFPlots can also import other file types (see the documentation if you're interested). 
+Before plotting, you need to save your data to file. In this example I will show how I export from Matlab to CSV, but other file formats are also accepted.
 
 By using a cell array to save the data, it is easy to have columns of different lengths (not taken advantage of in this example). This full script is at [doc/scripts/cadwiki_example.m](doc/scripts/cadwiki_example.m).
 ```matlab
-%% Save to CSV file
 % Create cell array to hold our data. Set it to the maximum size you might
 % want: in this case, I need 5 columns (x, sq, sq1, sq3, sq5) and am 
 % allowing for up to 1000 data points.
@@ -112,7 +111,7 @@ T = cell2table(data(2:end,:),'VariableNames',data(1,:));
 writetable(T,'cadwiki_example.csv')
 ```
 
-The CSV file will look something like the following (only the first few lines are shown). The first line contains text that identifies the contents of each column in order to be referenced in the LaTeX code. The data should all be numbers formatted as a general number. That is, `123456.789` instead of `1.23456789e5`. Also, when preparing your data, consider how many data points are actually required: typically a few hundred should be sufficient and exceeding this (>1000) can increase LaTeX compile time. The full CSV file is at [data/cadwiki_example.csv](data/cadwiki_example.csv).
+The CSV file will look something like the following (only the first few lines are shown). The first line contains text that identifies the contents of each column in order to be referenced in the LaTeX code. The data should all be numbers formatted as a general number. That is, `123456.789` instead of `1.23456789e5`. Also, when preparing your data, consider how many data points are actually required: typically a few hundred should be sufficient and going over 1000 or so can increase LaTeX compile time. The full CSV file is at [data/cadwiki_example.csv](data/cadwiki_example.csv).
 ```
 x,sq,sq1,sq3,sq5
 0,1,0,0,0
@@ -123,7 +122,7 @@ x,sq,sq1,sq3,sq5
 
 
 ### Examples
-To plot this, first copy that CSV file to the `data/` folder. Then, create a new file in the `fig/` folder in order to design the new figure. What follows is one example for making a plot, shown below. There are MANY more style options; see the manual (or StackOverflow) for more.
+To make a plot, first copy that CSV file to the `data/` folder. Then, create a new TeX file in the `fig/` folder in which to define the plot. What follows are examples for making line plots. Other 2D and 3D plots are described in the PGFPlots documentation.
 
 #### Single plot
 
@@ -171,23 +170,23 @@ Then, create the plots. This is configured to read from a table separated by com
 ```
 Common plot style options are `color`, `mark` (`none`, `circle`, `square`, etc), and `style` (`very thick`, `solid`, `densely dashed`, etc). Other options are available in the [PGFPlots documentation](doc/external/pgfplots.pdf).
 
-Lastly, create the legend. I felt that the first legend text was too close to the second, so I used `\phantom` to create some horizontal space. This isn't necessary, but looks nice. In addition, because your figures are created in LaTeX you can easily add citations.
+Lastly, create the legend. I felt that the first legend text was too close to the second, so I used `\phantom` to create some horizontal space. This isn't necessary, but looks nice. In addition, you could easily include citations (unlike figures exported directly from Matlab).
 ```latex
 \legend{Square wave\cite{Muratore2019}\phantom{--},Fundamental\phantom{--},Three harmonics\phantom{--},Five harmonics}
 \end{axis}
 \end{tikzpicture}
 ```
 
-Another feature of `\addplot` is the `smooth` option for automatic curve smoothing.
+Another feature of `\addplot` is the `smooth` option for automatic curve smoothing; see the documentation for more information. It could be useful for qualitative curves.
 
 
 #### Group plot
 
-Instead of plotting all of these on a single plot, you could do a group plot with shared axes. This full TeX file for this example is at [fig/multi_plot.tex](fig/multi_plot.tex).
+Instead of plotting all of these on a single plot, you could do a group plot with shared axes (like subplot in Matlab). The TeX file for this example is at [fig/multi_plot.tex](fig/multi_plot.tex).
 
 ![Multi plot](doc/img/multi_plot.png)
 
-The gist is that instead of `begin{axis}` you use `begin{groupplot}` and then include a configuration section to set the subplots:
+The gist is that instead of an `axis` you create a `groupplot` and then include an extra configuration section to define the subplots:
 ```latex
 	group style={
 		% Name doesn't seem to matter (can probably be referenced somewhere)
@@ -201,7 +200,7 @@ The gist is that instead of `begin{axis}` you use `begin{groupplot}` and then in
 		vertical sep=0.1in,
 	},
 ```
-Then, use `\nextgroupplot` to increment which subplot you are adding to:
+Then, use `\nextgroupplot` to switch between subplots:
 ```latex
 \nextgroupplot
 \addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/cadwiki_example.csv};
@@ -219,21 +218,118 @@ Then, use `\nextgroupplot` to increment which subplot you are adding to:
 
 
 ## Generating circuit diagrams
-* circuitikz: overview of some circuit elements it has (link to documentation)
+CircuiTikZ is essentially a library of circuit elements and enables LaTeX-compiled circuit diagrams, building on the general TikZ plotting package. The [documentation](doc/external/circuitikzmanual.pdf) lists all available circuit elements, though I found Stackoverflow to be more helpful in most cases. The package is frequently updated, so you may want to get the latest documentation from the [CircuiTikZ homepage](https://ctan.org/pkg/circuitikz).
 
-To load circuitikz, include the following in the preamble. Note that this also does some global configuration.
+As a basic concept, your diagram is divided into a grid and each 2-terminal element is defined as between two grid coordinates. Larger elements are defined by a single coordinate and orientation, and pin coordinates can be extracted from the element. CircuiTikZ supports variables, making it easy to modify diagrams.
+
+To load CircuiTikZ, include the following in the preamble. Note that this also does some global configuration.
 ```latex
-\usepackage{circuitikz}
+\usepackage[RPvoltages]{circuitikz}
 \tikzstyle{every path}=[line cap=round,line join=round]
 \usetikzlibrary{calc}
 ```
 
 ### Example
-* Show and explain a basic example
-* Also show code for a more complicated example
+
+This is best understood by considering an example. This example is available in [fig/circuit_mixer.tex](fig/circuit_mixer.tex)
+
+* screenshot of this
+
+CircuitTikZ defines macros for each circuit element, and their sizes are all fixed. I think that some elements are by default too large, so I used global commands to change their dimensions.
+```latex
+\tikzset{C/.append style={/tikz/circuitikz/bipoles/length=0.4cm}}
+\tikzset{R/.append style={/tikz/circuitikz/bipoles/length=0.4cm}}
+\tikzset{rxantenna/.append style={/tikz/circuitikz/bipoles/length=0.7cm}}
+```
+
+Next, you need to configure the CircuitTikZ environment. The `scale` option determines the distance between grid points, and I found 0.25 to allow for (mostly) integer coordinates. I also set the solderdot scale factor, font size, and line width.
+```latex
+\begin{circuitikz}[
+    scale=0.25,
+    every node/.style={scale=0.8},
+    every circ node/.style={scale=0.7},
+    ]
+    \tikzstyle{every node}=[font=\scriptsize]
+    \tikzstyle{every path}=[line width=0.6pt]
+```
+
+Whenever possible, define your diagram using variables. This makes it easier to reconfigure the diagram if needed. Here I will use variables to set various x- and y- coordinate positions.
+```latex
+    %%% Set various positions
+    \def\xin{-8}; % mixer input
+    \def\yin{0}; % mixer input
+    \def\xcl{-1.5}; % C_L
+    \def\xrl{0}; % R_L
+    \def\yA{4.5}; % vbb0/3
+    \def\yB{1.5}; % vbb1/2
+```
+
+Now we make an element: first, the antenna.
+```latex
+    %%% Antenna
+    \draw (\xin,\yin) node[circ]{} -- ++(-1,0) node[rxantenna,xscale=-1]{};
+```
+Let's break that down into its constituent components:
+* `\draw (\xin,\yin)` says where we should start putting the pen down
+* `node[circ]{}` says to draw a solid solder dot at this node
+* `-- ++(-1,0)` says to, while keeping the pen down, move left by 1 grid point
+* `node[rxantenna,xscale=-1]{}` creates a RX antenna at this node. The `xscale` parameter horizontally flips the component, so it's facing the right way.
+
+From there, we can continue and make the rest of the diagram: some switches, resistors, and capacitors. Note that a single `draw` command can create multiple elements and segments. Also, every element can include text using the `l` (label) parameter. I used a `raisebox` to set the switch text position in the way that I wanted.
+```latex
+    %% Switches
+    \draw (\xin,\yin) -- (\xin, \yA)              -- ++(1,0) to[switch,l=\raisebox{0.2em}{SW0}] ++(4,0) -- (0,\yA);
+    \draw         (\xin, \yB) node[circ]{} -- ++(1,0) to[switch,l=\raisebox{0.2em}{SW1}] ++(4,0) -- (0,\yB);
+    \draw         (\xin,-\yB) node[circ]{} -- ++(1,0) to[switch,l=\raisebox{0.2em}{SW2}] ++(4,0) -- (0,-\yB);
+    \draw (\xin,\yin) -- (\xin,-\yA)              -- ++(1,0) to[switch,l=\raisebox{0.2em}{SW3}] ++(4,0) -- (0,-\yA);
+    %% Baseband
+    \draw (\xcl, +\yA) node[circ]{} -- ++(0,-0.5) to[C] ++(0,-1.0) node[sground,scale=0.3,rotate=0]{};
+    \draw (\xcl, +\yB) node[circ]{} -- ++(0,-0.5) to[C] ++(0,-1.0) node[sground,scale=0.3,rotate=0]{};
+    \draw (\xcl, -\yB) node[circ]{} -- ++(0,-0.5) to[C] ++(0,-1.0) node[sground,scale=0.3,rotate=0]{};
+    \draw (\xcl, -\yA) node[circ]{} -- ++(0,-0.5) to[C] ++(0,-1.0) node[sground,scale=0.3,rotate=0]{};
+    \draw (\xrl, +\yA)              -- ++(0,-0.5) to[R] ++(0,-1.0) node[sground,scale=0.3,rotate=0]{};
+    \draw (\xrl, +\yB)              -- ++(0,-0.5) to[R] ++(0,-1.0) node[sground,scale=0.3,rotate=0]{};
+    \draw (\xrl, -\yB)              -- ++(0,-0.5) to[R] ++(0,-1.0) node[sground,scale=0.3,rotate=0]{};
+    \draw (\xrl, -\yA)              -- ++(0,-0.5) to[R] ++(0,-1.0) node[sground,scale=0.3,rotate=0]{};
+```
+
+CircuitTikZ also supports general TikZ commands. Here, I create some connected linear segments for a very simple timing diagram. This code isn't well-written.
+```latex
+    %%% Timing diagram
+    \tikzstyle{every path}=[line width=1.2pt]
+    \draw (5,-3) coordinate (lo);
+    \draw (lo)++(0,4.50) ++(0,0.5) node[]{\footnotesize SW0} ++(1.75,-0.5) -- ++(0,0) -- ++(0,1) -- ++(1,0) -- ++(0,-1) -- ++(3,0);
+    \draw (lo)++(0,3.00) ++(0,0.5) node[]{\footnotesize SW1} ++(1.75,-0.5) -- ++(1,0) -- ++(0,1) -- ++(1,0) -- ++(0,-1) -- ++(2,0);
+    \draw (lo)++(0,1.50) ++(0,0.5) node[]{\footnotesize SW2} ++(1.75,-0.5) -- ++(2,0) -- ++(0,1) -- ++(1,0) -- ++(0,-1) -- ++(1,0);
+    \draw (lo)++(0,0.00) ++(0,0.5) node[]{\footnotesize SW3} ++(1.75,-0.5) -- ++(3,0) -- ++(0,1) -- ++(1,0) -- ++(0,-1) -- ++(0,0);
+\end{circuitikz}
+```
+
+A more complex example is in [fig/circuit_rx.tex](fig/circuit_rx.tex). Here are a few key lines from that code.
+
+In this code, we create an opamp element. This element is defined by its center coordinate, but I need to have wires coming out of its input and output. For these to line up, I can extract and save the x- and y-coordinates of its input positive and negative nodes for reuse later.
+```latex
+    \draw (\xop,-\yop) node[fd op amp] (opamp) {};
+    \node at (opamp) {\normalsize A\phantom{AAA}}; % hack to get spacing right
+    \newdimen\yopp; \pgfextracty{\yopp}{\pgfpointanchor{opamp}{+}};
+    \newdimen\yopn; \pgfextracty{\yopn}{\pgfpointanchor{opamp}{-}};
+```
+
+You can also directly get the coordinates of an element pin, in this case `opamp.out -` refers to the cooordinates of the negative output of this opamp.
+```latex
+    \draw (opamp.out -) -- (\xout, \yopp)  node[ocirc]{};
+    \draw (opamp.out +) -- (\xout, \yopn)  node[ocirc]{};
+    \node[align=center] at (\xout, -\yop) {+\\\sub{V}{Q}\\-};
+```
+
+CircuiTikZ can also calculate intersections to use as coordinates. In this example, `(x |- opamp.+)` defines a coordinate at the intersection of a vertical line going through `x` and a horizontal line going through `opamp.+`.
+```latex
+    \draw (\xfbbox, -\fbconna) -- ++(-\fboffseta, 0) coordinate(x) -- (x |- opamp.+) node[circ]{};
+```
 
 
 ## Other figure types
+
 ### Timing diagrams
 For timing diagrams, look into tikztiming ([here are some examples](http://www.texample.net/tikz/examples/more-tikz-timing-examples/)).
 
@@ -288,14 +384,14 @@ Fifth method \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
 ## Preparing references
 References are all stored in a BibTeX file (`.bib`) and automatically ordered and formatted at compile time, following the IEEE style. The IEEE reference guide is [available on the IEEE website](https://ieeeauthorcenter.ieee.org/wp-content/uploads/IEEE-Reference-Guide.pdf), though you shouldn't have have to look at it (much).
 
-For some reason the default IEEE style includes URLs in all references, which is usually not desired. To fix this, create `/bib/IEEEtransBSTCTL.bib` with the following text to disable URL use:
+Default behavior is to include URLs in some references, which is not desired. You could remove URLs from the BibTeX file, but there is a better way. Just create `/bib/IEEEtransBSTCTL.bib` with the following text:
 ```bibtex
 @IEEEtranBSTCTL{
 	IEEEexample:BSTcontrol,
 	CTLuse_url = "no",
 }
 ```
-This file can have many options to configure your references section; see the [documentation](./doc/external/IEEEtran_bst_HOWTO.pdf) for more options. In addition, the following line must appear before the first citation but after `\begin{document}` in order for that configuration to take effect.
+See the [documentation](./doc/external/IEEEtran_bst_HOWTO.pdf) for additional configuration that is possible through this file. In addition, the following line must appear before the first citation but after `\begin{document}` in order for that configuration to take effect.
 ```latex
 \bstctlcite{IEEEexample:BSTcontrol}
 ```
@@ -337,7 +433,7 @@ year = {2019}
 ```
 
 There are a few issues with this entry:
-1. The article title has double curly brackets, meaning that capitalization will incorrectly remain as-is.
+1. The article title has double curly brackets, meaning that BibTeX will not auto-capitalize. (The IEEE format wants sentence case, not title case, for journal and conference titles in the bibliography.)
 2. The journal name should be abbreviated for most IEEE publications.
 3. The month has brackets, meaning that it will incorrectly be all-lowercase.
 
@@ -423,5 +519,5 @@ volume = {13},
 year = {2019}
 }
 ```
-(The curly brackets around "A" in the title aren't necessary, but are a result of my simple method of fixing capitalization.)
+(The curly brackets around "A" in the title aren't necessary, but are a result of my simple method of fixing capitalization and I haven't found any cases where this causes a problem.)
 

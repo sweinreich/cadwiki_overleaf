@@ -1,0 +1,100 @@
+\tikzset{C/.append style={/tikz/circuitikz/bipoles/length=0.5cm}}
+\begin{circuitikz}[
+    scale=0.25,
+    every node/.style={scale=0.8},
+    every circ node/.style={scale=0.7},
+    every ocirc node/.style={scale=0.7},
+    ]
+    \tikzstyle{every node}=[font=\scriptsize]
+    \tikzstyle{every path}=[line width=0.6pt,line cap=round,line join=round]
+    
+    %%% Set various positions
+    % Input, mixer, output, opamp
+    \def\xin{-16}; % mixer input
+    \def\xcl{-8}; % C_L
+    \def\xout{7}; % output
+    \def\xop{0}; % opamp
+    \def\yop{5.8}; % opamp
+    % Feedback
+    \def\xfbbox{-3.5}; % fb box ll corner (centered at 0)
+    \def\yfbbox{-1.5};
+    \def\fboffseta{1}; % connection x-offsets from fb box
+    \def\fboffsetb{2};
+    \def\fbconna{1.2}; % y-connections to fb box
+    \def\fbconnb{0.4};
+    
+
+    
+    %%% Q-path
+    % opamp
+    \draw (\xop,-\yop) node[fd op amp] (opamp) {};
+    \node at (opamp) {\normalsize A\phantom{AAA}}; % hack to get spacing right
+    \newdimen\yopp; \pgfextracty{\yopp}{\pgfpointanchor{opamp}{+}};
+    \newdimen\yopn; \pgfextracty{\yopn}{\pgfpointanchor{opamp}{-}};
+    % switches
+    \draw (\xin,0) -- (\xin,\yopp)          -- ++(1,0) to[switch,l=\raisebox{0.2em}{SW3}] ++(4,0) -- (opamp.+);
+    \draw         (\xin,\yopn) node[circ]{} -- ++(1,0) to[switch,l=\raisebox{0.2em}{SW1}] ++(4,0) -- (opamp.-);
+    % capacitors
+    \draw (\xcl, \yopn) node[circ]{} coordinate(x) to[C,l_=\sub{C}{L}\hspace*{-0.5em}] (x |- opamp)
+        node[circ]{} -- ++(0.5,0) node[sground,scale=0.3,rotate=90]{};
+    \draw (\xcl, \yopp) node[circ]{} coordinate(x) to[C,l=\sub{C}{L}\hspace*{-0.5em}] (x |- opamp);
+    % connections to feedback
+    \draw (\xfbbox, -\fbconna) -- ++(-\fboffseta, 0) coordinate(x) -- (x |- opamp.+) node[circ]{};
+    \draw (\xfbbox, -\fbconnb) -- ++(-\fboffsetb, 0) coordinate(x) -- (x |- opamp.-) node[circ]{};
+    \draw (-\xfbbox, -\fbconnb) -- ++(\fboffseta, 0) coordinate(x) -- (x |- opamp.out +) node[circ]{};
+    \draw (-\xfbbox, -\fbconna) -- ++(\fboffsetb, 0) coordinate(x) -- (x |- opamp.out -) node[circ]{};
+    % output
+    \draw (opamp.out -) -- (\xout, \yopp)  node[ocirc]{};
+    \draw (opamp.out +) -- (\xout, \yopn)  node[ocirc]{};
+    \node[align=center] at (\xout, -\yop) {+\\\sub{V}{Q}\\-};
+    
+    %%% I-path 
+    % opamp
+    \draw (\xop,\yop) node[fd op amp] (opamp) {};
+    \node at (opamp) {\normalsize A\phantom{AAA}}; % hack to get spacing right
+    \newdimen\yopp; \pgfextracty{\yopp}{\pgfpointanchor{opamp}{+}};
+    \newdimen\yopn; \pgfextracty{\yopn}{\pgfpointanchor{opamp}{-}};
+    % switches
+    \draw (\xin,0) -- (\xin,\yopn)          -- ++(1,0) to[switch,l=\raisebox{0.2em}{SW0}] ++(4,0) -- (opamp.-);
+    \draw         (\xin,\yopp) node[circ]{} -- ++(1,0) to[switch,l=\raisebox{0.2em}{SW2}] ++(4,0) -- (opamp.+);
+    % capacitors
+    \draw (\xcl, \yopn) node[circ]{} coordinate(x) to[C,l_=\sub{C}{L}\hspace*{-0.5em}] (x |- opamp)
+        node[circ]{} -- ++(0.5,0) node[sground,scale=0.3,rotate=90]{};
+    \draw (\xcl, \yopp) node[circ]{} coordinate(x) to[C,l=\sub{C}{L}\hspace*{-0.5em}] (x |- opamp);
+    % connections to feedback
+    \draw (\xfbbox, \fbconna) -- ++(-\fboffseta, 0) coordinate(x) -- (x |- opamp.+) node[circ]{};
+    \draw (\xfbbox, \fbconnb) -- ++(-\fboffsetb, 0) coordinate(x) -- (x |- opamp.-) node[circ]{};
+    \draw (-\xfbbox, \fbconnb) -- ++(\fboffseta, 0) coordinate(x) -- (x |- opamp.out +) node[circ]{};
+    \draw (-\xfbbox, \fbconna) -- ++(\fboffsetb, 0) coordinate(x) -- (x |- opamp.out -) node[circ]{};
+    % output
+    \draw (opamp.out -) -- (\xout, \yopp)  node[ocirc]{};
+    \draw (opamp.out +) -- (\xout, \yopn)  node[ocirc]{};
+    \node[align=center] at (\xout, \yop) {+\\\sub{V}{I}\\-};
+    
+    %%% Feedback box
+    \draw [thick] (-\xfbbox,-\yfbbox) rectangle (\xfbbox,\yfbbox) node[pos=.5,align=center] {complex\\feedback\cite{Andrews2010a}};
+
+	%%% Labels
+	\draw (\xin, 0)++(-1,0.5)       node[currarrow]{} +(0,0) -- ++(-1.2,0) -- ++(0,1.2) to[short, l_=\hspace*{-0.3em}\sub{Z}{in}] ++(0,0.6);
+	\draw (\xin, \yopn)++(0.5,0.5)    node[currarrow]{} +(0,0) -- ++(-1.2,0) -- ++(0,1.2) to[short, l_=\hspace*{-0.3em}\sub{Z}{path}] ++(0,0.6);
+	\draw (\xcl, \yopn)++(-1.5,0.5) node[currarrow]{} +(0,0) -- ++(-1.2,0) -- ++(0,1.2) to[short, l_=\hspace*{-0.3em}\sub{Z}{BB}] ++(0,0.6);
+	\draw (\xcl, \yopn)++(1.75,0.5) node[currarrow]{} +(0,0) -- ++(-1.2,0) -- ++(0,1.2) to[short, l_=\hspace*{-0.3em}\sub{Z}{L}] ++(0,0.6);
+
+    %% Antenna
+    \draw (\xin,0) node[circ]{} -- ++(-3,0) to[/tikz/circuitikz/bipoles/length=1cm,european resistor, l_=\footnotesize\raisebox{0.3em}{\sub{Z}{RF}}] ++(-4,0) -- ++(-1,0) coordinate (left)
+        -- ++(0,-1) to[/tikz/circuitikz/bipoles/length=0.8cm,sV,l=\hspace*{-0.3em}\sub{V}{RF}] ++(0,-5) node[/tikz/circuitikz/bipoles/length=0.8cm,sground]{};
+	
+	%%% Antenna impedance inset
+	% box and text
+    \draw [dashed] (left)++(-2.0,2.8) coordinate (boxLL) rectangle ++(7.6,7.3) coordinate (boxUR);
+    \draw [dashed] (left)++(1,1) -- (boxLL);
+    \draw [dashed] (left)++(4.7,1) -- (boxUR |- boxLL);
+    \draw ($(boxLL)!0.5!(boxUR)$ |- boxLL)++(0,-3.2) coordinate (za_txt);
+    \node at (za_txt) {\footnotesize (Section \ref{sec_analysis})};
+    % RLC
+    \draw (boxLL)++(0.5,3.0) node[ocirc]{} coordinate(za1) to[/tikz/circuitikz/bipoles/length=0.5cm,R,l=\raisebox{0.2em}{50}] ++(3,0) coordinate(N1) -- ++(0,0.9)
+        to[/tikz/circuitikz/bipoles/length=0.6cm,american inductor,l=\raisebox{0.2em}{0.5n}] ++(3,0) -- ++(0,-0.9) coordinate(N2) -- ++(0.6,0) coordinate(za2) node[ocirc]{};
+    \draw (N1) node[circ]{} -- ++(0,-0.9) to[/tikz/circuitikz/bipoles/length=0.3cm,C,l=\raisebox{0.2em}{0.5p}] ++(3,0) -- (N2) node[circ]{};
+    % R
+    \draw (za1 |- boxLL)++(0,5.9) coordinate(za3) node[ocirc]{}  to[/tikz/circuitikz/bipoles/length=0.5cm,R,l=\raisebox{0.2em}{50}] (za2 |- za3) node[ocirc]{};
+\end{circuitikz}
