@@ -11,7 +11,7 @@ Why should you generate figures in LaTeX rather than in Matlab or Python?
 
 ### Contents
 * [General formatting](#general-formatting)
-* [Initial setup](#basic-setup)
+* [Initial setup](#initial-setup)
 * [Generating plots](#generating-plots)
   * [Data preparation](#data-preparation)
   * [Examples](#examples)
@@ -58,13 +58,13 @@ Don't forget to include the Acknowledgment section and author/affiliation inform
 ## Initial setup
 In keeping with the separation between style and content, I use the following file structure:
 * `bib/` contains the bibliography (BibTeX) file(s).
-* `data/` contains all data to be plotted, in `.csv` format.
+* `data/` contains all data to be plotted, in CSV format.
 * `fig/` contains TeX files which generate the figures.
 * `ieee/` contains IEEE-provided styles. (It is possible on Overleaf to create a workspace which automatically references these IEEE styles, but I found when copying a project it lost some references. I recommend manually providing these files, which will also allow you to compile locally if desired.)
 * `main.tex` contains the actual text of the paper, and imports the figure TeX files from `fig/`.
 * `preamble.tex` is where I import and configure packages, define custom commands, and other preamble.
 
-Note that this project has an extra folder `doc/` and this file `README.md` which are only for documentation and providing helpful scripts.
+Note that this project has an extra folder `doc/` and this file `README.md` which are only for documentation and providing helpful scripts. No image files (EPS, PNG, BMP, etc) should be in the project, unless a JPG is needed to show the die photo or measurement setup.
 
 To include the preamble in your main file, use `\include` (similarly to include figures). `main.tex` looks like this:
 ```latex
@@ -77,7 +77,7 @@ To include the preamble in your main file, use `\include` (similarly to include 
 
 
 ## Generating plots
-* PGFPlots: overview of what it can do (list some of the plot types, link to documentation)
+Plots can be created directly by LaTeX using the PGFPlots package. This package can plot imported matrices or mathematical expressions, on a variety of 2D and 3D plot types. The [PGFPlots documentation](doc/external/pgfplots.pdf) is a valuable resource.
 
 To use pgfplots, include the following in your preamble. Note that this says you want compatibility with version 1.9 (currently the latest version, I believe).
 ```latex
@@ -125,7 +125,7 @@ x,sq,sq1,sq3,sq5
 ### Examples
 To plot this, first copy that CSV file to the `data/` folder. Then, create a new file in the `fig/` folder in order to design the new figure. What follows is one example for making a plot, shown below. There are MANY more style options; see the manual (or StackOverflow) for more.
 
-##### Single plot
+#### Single plot
 
 ![Single plot](doc/img/single_plot.png)
 
@@ -181,7 +181,7 @@ Lastly, create the legend. I felt that the first legend text was too close to th
 Another feature of `\addplot` is the `smooth` option for automatic curve smoothing.
 
 
-##### Group plot
+#### Group plot
 
 Instead of plotting all of these on a single plot, you could do a group plot with shared axes. This full TeX file for this example is at [fig/multi_plot.tex](fig/multi_plot.tex).
 
