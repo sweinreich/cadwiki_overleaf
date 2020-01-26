@@ -105,7 +105,7 @@ x,sq,sq1,sq3,sq5
 ### Examples
 To plot this, first copy that CSV file to the `data/` folder. Then, create a new file in the `fig/` folder in order to design the new figure. What follows is one example for making a plot, shown below. There are MANY more style options; see the manual (or StackOverflow) for more.
 
-* TO DO: put a screenshot of the figure here
+![Single plot](doc/img/single_plot.png)
 
 First, create an axis which we will then configure. This is equivalent to configuring both the "figure" and "axis" in Matlab, as well as a few other things (ex: legend). (This full TeX file is at [fig/single_plot.tex](fig/single_plot.tex).)
 ```latex
@@ -186,7 +186,7 @@ Then, use `\nextgroupplot` to increment which subplot you are adding to:
 \addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
 ```
 
-* TO DO: show image of 2x2 array
+![Multi plot](doc/img/multi_plot.png)
 
 This full TeX file for this example is at [fig/multi_plot.tex](fig/multi_plot.tex).
 
@@ -397,6 +397,9 @@ Fifth method \cite{Klumperink2017} & \y & \y & \n & \y & \y \tabularnewline
 \end{threeparttable}
 \end{table}
 ```
+
+![Table](doc/img/table.png)
+
 
 ### White space
 
