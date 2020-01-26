@@ -1,34 +1,29 @@
 # Cadwiki Overleaf Tutorial
-This document describes how to use Overleaf to generate clean vector graphic plots and diagrams, as well as preparing references for IEEE style compliance. This would also be applicable to using a local installation of LaTeX.
+This document describes how to use Overleaf to generate clean vector graphic plots and diagrams, as well as preparing references for IEEE style compliance. This is also applicable to using a local installation of LaTeX.
 
 Why should you generate figures in LaTeX rather than in Matlab or Python?
-1. This separates formatting from content. This makes it easy to re-style your figure to fit in your paper without touching the underlying data.
+1. This separates formatting from content. This makes it easy to re-style your figure to fit in your paper without touching the underlying data, or re-running scripts.
 2. Style automatically matches the rest of your paper, including font and font sizes.
 3. Access to your bibliography, so references can be included within the figure.
 4. Automatic vector graphics. All figures should be vector graphics, with the exception of photos (of your die or measurement setup, for example).
 
-All of the examples shown here are implemented in the following Overleaf document, formatted for a generic IEEE conference (except ISSCC, which has its own format). Other IEEE LaTeX templates can be found [one their website](https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/ieee-article-templates/).
-
-[See the example Overleaf project here](https://www.overleaf.com/read/qznyrkjntprq)
-
-Scripts discussed here are available in the [doc/scripts/](doc/scripts/) folder, and some package documentation is included in the [doc/external/](doc/external/) folder. 
+[**All of the examples shown here are implemented in this Overleaf project**](https://www.overleaf.com/read/qznyrkjntprq), formatted for a generic IEEE conference (except ISSCC, which has its own format). Other IEEE LaTeX templates can be found [on their website](https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/ieee-article-templates/). Scripts discussed here are available in the [doc/scripts/](doc/scripts/) folder, and some package documentation is included in the [doc/external/](doc/external/) folder. 
 
 ### Contents
 * [General formatting](#general-formatting)
- * [White space](#white-space)
-* [Basic setup](#basic-setup)
+* [Initial setup](#basic-setup)
 * [Generating plots](#generating-plots)
- * [Data preparation](#data-preparation)
- * [Examples](#examples)
-  * [Single plot](#single-plot)
-  * [Group plot](#group-plot)
+  * [Data preparation](#data-preparation)
+  * [Examples](#examples)
+    * [Single plot](#single-plot)
+    * [Group plot](#group-plot)
 * [Generating circuit diagrams](#generating-circuit-diagrams)
- * [Example](#example)
+  * [Example](#example)
 * [Other figure types](#other-figure-types)
- * [Timing diagrams](#timing-diagrams)
- * [Tables](#tables)
+  * [Timing diagrams](#timing-diagrams)
+  * [Tables](#tables)
 * [Preparing references](#preparing-references)
- * [Export from Mendeley](#export-from-mendeley)
+  * [Export from Mendeley](#export-from-mendeley)
 
 
 ## General formatting
@@ -47,10 +42,7 @@ When making plots, keep them simple and consistent for readability. Here are a f
 * Use consistent line styling when referring to the same configuration (i.e. when the legend entries match). As an example, suppose you are plotting S21 for 4 different transistor gm configurations. If you plot NF for those same 4 gm configurations, the colors should match between the two figures.
 
 
-### White space
-There are many ways to control white space in LaTeX in order to bring your paper below the page limit. Here are a few tips.
-
-The easiest way is with `\vspace{-1em}` (or whatever height you want to remove). This can also be helpful to add a little bit of extra space before section headers when the page feels too dense.
+There are many ways to control white space in LaTeX in order to bring your paper below the page limit. The easiest way is with `\vspace{-1em}` (or whatever height you want to remove). This can also be helpful to add a little bit of extra space before section headers when the page feels too dense.
 
 Figures and tables (and other float objects) by default have a lot of white space surrounding them. You can reduce this space with `\addtolength{\textfloatsep}{-0.3em}`, but I found that using `\vspace` at the end of each figure helped as well. (I made a custom function to reduce this spacing, so I could change one value in the preamble and have it modify spacing around every figure in the paper.)
 
@@ -63,7 +55,7 @@ Equations can also have too much spacing around them by default, especially for 
 Don't forget to include the Acknowledgment section and author/affiliation information before final formatting. I forgot the Acknowledgment section and it took at least an hour to reformat so that it would fit.
 
 
-## Basic setup
+## Initial setup
 In keeping with the separation between style and content, I use the following file structure:
 * `bib/` contains the bibliography (BibTeX) file(s).
 * `data/` contains all data to be plotted, in `.csv` format.
