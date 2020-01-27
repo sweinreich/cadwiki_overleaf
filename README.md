@@ -213,7 +213,7 @@ Then, use `\nextgroupplot` to switch between subplots:
 \addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
 \addplot[color=blue,mark=none,style=very thick,dotted] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
 \addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
-\legend{Square wave\phantom{--},Fundamental\phantom{--},Three harmonics\phantom{--},Five harmonics}
+\legend{Square wave\phantom{--},Fundamental\cite{Muratore2019}\phantom{--},Three harmonics\phantom{--},Five harmonics}
 \nextgroupplot
 \addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
 \nextgroupplot
