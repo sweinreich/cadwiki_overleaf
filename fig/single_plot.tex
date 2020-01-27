@@ -32,10 +32,10 @@
 	legend style={draw=none},
 ]
 \addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/cadwiki_example.csv};
-\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
-\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
+\addplot[color=blue,mark=none,style=very thick,dotted] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
 \addplot[color=black,mark=none,style=very thick,densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
-\legend{Square wave\cite{Muratore2019}\phantom{--},Fundamental,Three harmonics\phantom{--},Five harmonics}
+\legend{Square wave\phantom{--},Fundamental\cite{Muratore2019},Three harmonics\phantom{--},Five harmonics}
 \end{axis}
 \end{tikzpicture}
 \swDecreaseFigSpacing

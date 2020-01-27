@@ -58,14 +58,14 @@
 \makeatother
 \nextgroupplot
 \addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/cadwiki_example.csv};
-\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
-\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
+\addplot[color=blue,mark=none,style=very thick,dotted] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
 \addplot[color=black,mark=none,style=very thick,densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
 \legend{Square wave\phantom{--},Fundamental,Three harmonics\phantom{--},Five harmonics}
 \nextgroupplot
-\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
 \nextgroupplot
-\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
+\addplot[color=blue,mark=none,style=very thick,dotted] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
 \nextgroupplot
 \addplot[color=black,mark=none,style=very thick,densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
 \end{groupplot}
