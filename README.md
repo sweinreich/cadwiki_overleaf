@@ -170,8 +170,8 @@ First, create an axis which we will then configure. This is roughly equivalent t
 Then, create the plots. This is configured to read from a table separated by commas (i.e. CSV file), with a header row, and x-data found in column "x" and y-data found in column "sq".
 ```latex
 \addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/cadwiki_example.csv};
-\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
-\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
+\addplot[color=blue,mark=none,style=very thick,dotted] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
 \addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
 ```
 Common plot style options are `color`, `mark` (`none`, `circle`, `square`, `x`, etc), and `style` (`very thick`, `solid`, `densely dashed`, etc). Use `only marks` to get rid of the line, for example to show measurement data. Other options are available in the documentation ([available here](https://ctan.org/pkg/pgfplots)).
@@ -210,14 +210,14 @@ Then, use `\nextgroupplot` to switch between subplots:
 ```latex
 \nextgroupplot
 \addplot[color=black,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq] {data/cadwiki_example.csv};
-\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
-\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
+\addplot[color=blue,mark=none,style=very thick,dotted] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
 \addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
 \legend{Square wave\phantom{--},Fundamental\phantom{--},Three harmonics\phantom{--},Five harmonics}
 \nextgroupplot
-\addplot[color=blue,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
+\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq1] {data/cadwiki_example.csv};
 \nextgroupplot
-\addplot[color=red,mark=none,style=very thick] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
+\addplot[color=blue,mark=none,style=very thick,dotted] table[col sep=comma,header=true,x=x,y=sq3] {data/cadwiki_example.csv};
 \nextgroupplot
 \addplot[color=black,mark=none,style=densely dashed] table[col sep=comma,header=true,x=x,y=sq5] {data/cadwiki_example.csv};
 ```
