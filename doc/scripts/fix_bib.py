@@ -51,13 +51,13 @@ for line in fileinput.input("cadwiki_example.bib", inplace=True):
         # Then replace them with {WORD} so that they're properly capitalized
         # TO DO: ignore anything already within {}
         # TO DO: Can I write this in a single line using re.sub? Seems inefficient to search, make a decision, then search again to replace
+        str_field = STR_TITLE_FIELD if line.startswith(STR_TITLE_FIELD) else STR_BOOKTITLE_FIELD
         # words = re.split('[,-:+ {}\$(0-9)]', line.strip().strip('title = '))
-        words = re.split('[,-:+ {}\$(0-9)]', line.strip().strip(STR_TITLE_FIELD))
+        words = re.split('[,-:+ {}\$(0-9)]', line.strip().strip(str_field))
         for i,word in enumerate(words):
             if word == word.upper() and len(word) > 0 and word.isalnum():
                 line = re.sub('(?P<a>^|[,-:+ {}\$(0-9)])('+word+u')(?P<b>[,-:+ {}\$(0-9)]|$)', '\g<a>{' + word + '}\g<b>', line)
                 x.append([word, line])
-        str_field = STR_TITLE_FIELD if line.startswith(STR_TITLE_FIELD) else STR_BOOKTITLE_FIELD
         line = str_field + ' {' + line.strip().strip(str_field) + '},\n'
     print line,
 
