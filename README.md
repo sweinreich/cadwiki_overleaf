@@ -491,12 +491,16 @@ Lastly, fix capitalization for article titles. The IEEE standard is to have sent
     if line.startswith('title = {'):
         line = line.replace('{{', '{').replace('}}', '}')
 ```
-However, this would result in "A data-compressive wired-or readout for massively parallel neural recording," so there is some extra code to fix this. First, fix some known keywords like dB and Hz which would otherwise be formatted as "db" and "hz." Then, use regex to find all words which are all-caps and surround them in curly brackets. 
+However, this would result in "A data-compressive wired-or readout for massively parallel neural recording," so there is some extra code to fix this. First, fix some known keywords like dB and Hz which would otherwise be formatted as "db" and "hz." Then, use regex to find all words which are all-caps and surround them in curly brackets. Note: `\mu` in mathmode produces an italic greek mu which is undesired for SI units (e.g., micrometer) so it is replaces by `\upmu` which requires `\usepackage{upgreek}` in the main tex file. 
 ```python
         line = line.replace('dB','{dB}')
         line = line.replace('Hz','{Hz}')
         line = line.replace('mV','{mV}')
         line = line.replace('IoT','{IoT}')
+        line = line.replace('SoC', '{SoC}')
+        line = line.replace('\\mu', '\\upmu')
+        line = line.replace('nW', '{nW}')
+        line = line.replace('mW', '{mW}')
         # Find all letters/words that are all caps, and standing on their own
         # Then replace them with {WORD} so that they're properly capitalized
         # TO DO: ignore anything already within {}
