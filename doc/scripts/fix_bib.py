@@ -31,6 +31,7 @@ for line in fileinput.input("cadwiki_example.bib", inplace=True):
         line = line.replace('Symposium', 'Symp.')
         line = line.replace('National', 'Nat.')
         line = line.replace('International', 'Int.')
+        line = line.replace('Acoustic', 'Acoust.')
     # Fix titles: default no capitalization, except some specific words
     # Important: make sure all non-roman characters are in math (eg: mu should be $\mu$)
     if line.startswith(STR_TITLE_FIELD) or line.startswith(STR_BOOKTITLE_FIELD):# in line and 'booktitle = {' not in line:
@@ -59,6 +60,8 @@ for line in fileinput.input("cadwiki_example.bib", inplace=True):
                 line = re.sub('(?P<a>^|[,-:+ {}\$(0-9)])('+word+u')(?P<b>[,-:+ {}\$(0-9)]|$)', '\g<a>{' + word + '}\g<b>', line)
                 x.append([word, line])
         line = str_field + ' {' + line.strip().strip(str_field) + '},\n'
+    if line.startswith('publisher = {IEEE}') or line.startswith('publisher = {Institute of Electrical and Electronics Engineers'):
+        line = '' # no need to include publisher for IEEE
     print line,
 
 for y in x:
