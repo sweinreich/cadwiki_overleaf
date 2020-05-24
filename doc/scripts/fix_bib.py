@@ -32,6 +32,9 @@ for line in fileinput.input("cadwiki_example.bib", inplace=True):
         line = line.replace('National', 'Nat.')
         line = line.replace('International', 'Int.')
         line = line.replace('Acoustic', 'Acoust.')
+        line = line.replace('Systems', 'Syst.')
+        line = line.replace('Computers', 'Comput.')
+        line = line.replace('Computer', 'Comput.')
     # Fix titles: default no capitalization, except some specific words
     # Important: make sure all non-roman characters are in math (eg: mu should be $\mu$)
     if line.startswith(STR_TITLE_FIELD) or line.startswith(STR_BOOKTITLE_FIELD):# in line and 'booktitle = {' not in line:
